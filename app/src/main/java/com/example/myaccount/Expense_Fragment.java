@@ -14,6 +14,7 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class Expense_Fragment extends Fragment {
+    View view;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +60,7 @@ public class Expense_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_expense_, container, false);
+        view=inflater.inflate(R.layout.fragment_expense_, container, false);;
+        return view;
     }
 }

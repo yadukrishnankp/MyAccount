@@ -65,7 +65,7 @@ public class Registration_Activity extends AppCompatActivity {
 
                     Signup_model sm = new Signup_model();
                     sm.setName(name.getEditText().getText().toString());
-                    sm.setCompany(company.getEditText().getText().toString());
+                    sm.setCompanyname(company.getEditText().getText().toString());
                     sm.setPhone(phone.getEditText().getText().toString());
                     sm.setEmail(email.getEditText().getText().toString().trim());
                     sm.setPassword(password.getEditText().getText().toString());
@@ -133,7 +133,7 @@ public class Registration_Activity extends AppCompatActivity {
                                     HashMap<String, String> hashMap = new HashMap<>();
                                     hashMap.put("id", newKey);
                                     hashMap.put("name", ss.getName());
-                                    hashMap.put("companyname", ss.getCompany());
+                                    hashMap.put("companyname", ss.getCompanyname());
                                     hashMap.put("phone", ss.getPhone());
                                     hashMap.put("email", ss.getEmail());
                                     hashMap.put("address",ss.getAddress());

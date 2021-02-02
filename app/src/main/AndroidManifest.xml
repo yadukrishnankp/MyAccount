@@ -12,11 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyAccount">
-        <activity android:name=".Payment_Details_Activity" android:exported="true"></activity>
+        <activity android:name=".Edit_Business_Activity" android:exported="true"></activity>
+        <activity
+            android:name=".Payment_Details_Activity"
+            android:exported="true" />
         <activity
             android:name=".Business_Activity"
             android:exported="true" />
-        <activity android:name=".View_Business_Activity" />
+        <activity
+            android:name=".View_Business_Activity"
+            android:exported="true" />
         <activity android:name=".Forgetpassword_Activity" />
         <activity
             android:name=".Addbusiness_Activity"

@@ -60,6 +60,7 @@ public class View_Business_Activity extends AppCompatActivity {
                     RecyclerView.LayoutManager manager=new GridLayoutManager(View_Business_Activity.this,1);
                     recyclerView.setLayoutManager(manager);
                     recyclerView.setAdapter(business_list_adapter);
+                    progressBar.setVisibility(View.GONE);
 
                 }
 
@@ -86,26 +87,7 @@ public class View_Business_Activity extends AppCompatActivity {
             return null;
         }
 
-        @Override
-        protected void onPostExecute(String s) {
-//            super.onPostExecute(s);
-            Log.e("pro","-");
-            progressBar.setVisibility(View.GONE);
-        }
 
-        @Override
-        protected void onPreExecute() {
-//            super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-//            super.onProgressUpdate(values);
-            Log.e("pro","-");
-            Toast.makeText(View_Business_Activity.this, "pogress", Toast.LENGTH_SHORT).show();
-            progressBar.setVisibility(View.VISIBLE);
-        }
     }
 
 

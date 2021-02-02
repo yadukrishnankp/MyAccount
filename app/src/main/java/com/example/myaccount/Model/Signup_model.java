@@ -3,7 +3,7 @@ package com.example.myaccount.Model;
 public class Signup_model {
 
     String name;
-    String company;
+    String companyname;
     String phone;
     String address;
     String email;
@@ -45,12 +45,12 @@ public class Signup_model {
         this.name = name;
     }
 
-    public String getCompany() {
-        return company;
+    public String getCompanyname() {
+        return companyname;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setCompanyname(String companyname) {
+        this.companyname = companyname;
     }
 
     public String getPhone() {
