@@ -10,14 +10,17 @@ import androidx.fragment.app.FragmentPagerAdapter;
 public class Business_page_adapter extends FragmentPagerAdapter {
     Context context;
     int tabcount;
+    String bid,uid;
     public Business_page_adapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
     }
 
-    public Business_page_adapter(Context context, FragmentManager supportFragmentManager, int tabCount) {
+    public Business_page_adapter(Context context, FragmentManager supportFragmentManager, int tabCount,String uid,String bid) {
         super(supportFragmentManager);
         this.context=context;
         this.tabcount=tabCount;
+        this.bid=bid;
+        this.uid=uid;
     }
 
     @NonNull
@@ -26,10 +29,10 @@ public class Business_page_adapter extends FragmentPagerAdapter {
         switch (position)
         {
             case 0:
-                Earning_Fragment earning_fragment=new Earning_Fragment();
+                Earning_Fragment earning_fragment=new Earning_Fragment(uid,bid);
                 return  earning_fragment;
             case 1:
-                Expense_Fragment expense_fragment=new Expense_Fragment();
+                Expense_Fragment expense_fragment=new Expense_Fragment(uid,bid);
                 return expense_fragment;
             default:
                  return null;

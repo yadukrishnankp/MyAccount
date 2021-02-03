@@ -1,34 +1,117 @@
 package com.example.myaccount;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.example.myaccount.Model.Amount_model;
+import com.example.myaccount.Model.Payment_model;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class Business_Activity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     TabLayout tabLayout;
     ViewPager viewPager;
-    String uid,bid;
+    String uid,bid,currentDate,month;
+    PieChart pieChart;
+    ArrayList<Amount_model>expense=new ArrayList<>();
+    ArrayList<Amount_model>earning=new ArrayList<>();
+    ArrayList<Float>expense_f=new ArrayList<>();
+    ArrayList<Float>earning_f=new ArrayList<>();
+    private float ydata[]=new float[2];
+    private String xdata[]=new String[2];
+    float a;
+    Payment_model payment_model=new Payment_model();
+    getexpense getexpense=new getexpense();
+    getearning getearning=new getearning();
+    ArrayList<Float>e=new ArrayList<>();
+    public Business_Activity()
+    {
+
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_2);
+        Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+        pieChart=findViewById(R.id.piechartbusiness);
         uid=getIntent().getExtras().getString("uid");
         bid=getIntent().getExtras().getString("bid");
+        Mytaskparams mytaskparams=new Mytaskparams(uid,bid);
+        getexpense(bid);
+        getearning(bid);
+        expense=dbhandle.getexpense();
+        for (Amount_model am:expense)
+        {
+            expense_f.add(Float.valueOf(am.getExpense()));
+            Log.e("expense","="+am.getExpense());
+        }
+        earning=dbhandle.getearning();
+        for (Amount_model am:earning)
+        {
+            earning_f.add(Float.valueOf(am.getEarning()));
+            Log.e("earning","="+am.getEarning());
+        }
+
+        float expense_total=get_total_expense(expense_f);
+        float earning_total=get_total_earning(earning_f);
+        Log.e("total","="+expense_total+earning_total);
+        dbhandle.delete_earning();
+        dbhandle.delete_expense();
+
+        ydata[0]=earning_total;
+        ydata[1]=expense_total;
+        xdata[0]="earnings";
+        xdata[1]="expense";
+
         Log.e(getClass().getSimpleName(),"uid="+uid);
         Log.e(getClass().getSimpleName(),"bid="+bid);
         bottomNavigationView=findViewById(R.id.bottombusi);
         tabLayout=findViewById(R.id.tabLayoutbusinesshome);
+        currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        month=currentDate.substring(3);
+        pieChart.setHoleRadius(25f);
+        pieChart.setTransparentCircleAlpha(0);
+        pieChart.setCenterText("My Accounts");
+
+        pieChart.setCenterTextSize(10);
+        pieChart.setDrawEntryLabels(true);
+        pieChart.getDescription().setText("monthly earning and expense");
+        pieChart.setEntryLabelTextSize(18f);
+        getexpense.execute(mytaskparams);
+        getearning.execute(mytaskparams);
+
+        AddDataset(pieChart);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         viewPager=findViewById(R.id.viewpagerbusiness);
-        Business_page_adapter business_page_adapter=new Business_page_adapter(this,getSupportFragmentManager(),tabLayout.getTabCount());
+        Business_page_adapter business_page_adapter=new Business_page_adapter(this,getSupportFragmentManager(),tabLayout.getTabCount(),uid,bid);
         viewPager.setAdapter(business_page_adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -54,5 +137,353 @@ public class Business_Activity extends AppCompatActivity {
                 choose_bottomsheet_fragment.show(getSupportFragmentManager(),"bottomsheet");
             }
         });
+
     }
+
+    public float get_total_expense(ArrayList<Float>arr)
+    {
+        float b=0;
+        for (float a:arr)
+        {
+            b+=a;
+        }
+        return b;
+    }
+    public float get_total_earning(ArrayList<Float>arr)
+    {
+        float b=0;
+        for (float a:arr)
+        {
+            b+=a;
+        }
+        return b;
+    }
+
+    public void getexpense(String bid)
+    {
+        final DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
+        reference.child("expense_tbl").orderByChild("bid").equalTo(bid).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                payment_model=snapshot.getValue(Payment_model.class);
+                if (payment_model.getMonth().equals(month))
+                {
+                    final DatabaseReference reference1=FirebaseDatabase.getInstance().getReference();
+                    reference1.child("expense_tbl").orderByChild("expenseid").equalTo(payment_model.getExpenseid()).addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                            payment_model=snapshot.getValue(Payment_model.class);
+                            float b= Float.parseFloat(payment_model.getAmount());
+                            Amount_model amount_model=new Amount_model();
+                            String a= String.valueOf(b);
+                            amount_model.setExpense(a);
+                            Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+                            dbhandle.expense_insert(amount_model);
+                            Log.e("s","="+b);
+
+                        }
+
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+
+
+    public void getearning(String bid)
+    {
+        final DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
+        reference.child("Earning_tbl").orderByChild("bid").equalTo(bid).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                payment_model=snapshot.getValue(Payment_model.class);
+                if (payment_model.getMonth().equals(month))
+                {
+                    final DatabaseReference reference1=FirebaseDatabase.getInstance().getReference();
+                    reference1.child("Earning_tbl").orderByChild("earnid").equalTo(payment_model.getEarnid()).addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                            payment_model=snapshot.getValue(Payment_model.class);
+                            float b= Float.parseFloat(payment_model.getAmount());
+                            Amount_model amount_model=new Amount_model();
+                            String a= String.valueOf(b);
+                            amount_model.setEarning(a);
+                            Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+                            dbhandle.earn_insert(amount_model);
+                            Log.e("s","="+b);
+
+                        }
+
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+
+    public float gettotal(ArrayList<Float>arr)
+    {
+        float total=0;
+        for (Float f:arr)
+        {
+            total += f;
+        }
+        a=total;
+        return a;
+    }
+
+    private void AddDataset(PieChart pieChart)
+    {
+        Log.e("hi","pie");
+        ArrayList<PieEntry>yentry=new ArrayList<>();
+        ArrayList<String>xentry=new ArrayList<>();
+
+        for (int i=0;i<ydata.length;i++)
+        {
+            Log.e(getClass().getSimpleName(),"dataset");
+            yentry.add(new PieEntry(ydata[i],i));
+        }
+
+        for(int i = 1; i < xdata.length; i++){
+            xentry.add(xdata[i]);
+        }
+
+        PieDataSet pieDataSet=new PieDataSet(yentry,"amount");
+        pieDataSet.setSliceSpace(2);
+        pieDataSet.setValueTextSize(12);
+        pieDataSet.setValueTextColor(Color.WHITE);
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(Color.RED);
+        colors.add(Color.BLUE);
+
+        pieDataSet.setColors(colors);
+
+        //add legend to chart
+        Legend legend = pieChart.getLegend();
+        legend.setForm(Legend.LegendForm.CIRCLE);
+
+
+        //create pie data object
+        PieData pieData = new PieData(pieDataSet);
+        pieChart.setData(pieData);
+        pieChart.invalidate();
+    }
+
+    private static class Mytaskparams{
+        String uid,bid;
+
+        public Mytaskparams(String uid, String bid) {
+            this.uid = uid;
+            this.bid = bid;
+        }
+    }
+    private  class getexpense extends AsyncTask<Mytaskparams, Void, Void>
+    {
+        SharedPreferences pref;
+       public  float a,c;
+       public float getf(ArrayList<Float>expp)
+       {
+           float total=0;
+           for (Float f:expp)
+           {
+               total += f;
+           }
+           return total;
+       }
+
+
+        @Override
+        protected Void doInBackground(Mytaskparams... mytaskparams) {
+            pref = getSharedPreferences("yadta", MODE_PRIVATE);
+            ArrayList<Float>tt=new ArrayList<>();
+            ArrayList<String> exp=new ArrayList<>();
+            ArrayList<Float>expp=new ArrayList<>();
+            String uid=mytaskparams[0].uid;
+            String bid=mytaskparams[0].bid;
+            final DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
+            reference.child("expense_tbl").orderByChild("bid").equalTo(bid).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    payment_model=snapshot.getValue(Payment_model.class);
+                    if (payment_model.getMonth().equals(month))
+                    {
+                        float f= Float.parseFloat(payment_model.getAmount());
+                        expp.add(f);
+                    }
+                    Log.e("expar","="+expp);
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            return null;
+        }
+
+
+    }
+
+    private class getearning extends AsyncTask<Mytaskparams,Void,Void>
+    {
+
+
+        @Override
+        protected Void doInBackground(Mytaskparams... mytaskparams) {
+            String uid=mytaskparams[0].uid;
+            String bid=mytaskparams[0].bid;
+            final DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
+            reference.child("Earning_tbl").orderByChild("bid").equalTo(bid).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    payment_model=snapshot.getValue(Payment_model.class);
+                    if (payment_model.getMonth().equals(month))
+                    {
+                        float f= Float.parseFloat(payment_model.getAmount());
+//                        earning=earning+f;
+                    }
+//                    Log.e("earning","="+earning);
+
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+
+                }
+            });
+//            String earn_s=Float.toString(earning);
+//            Log.e("earns","="+earning);
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+        }
+    }
+
+
 }

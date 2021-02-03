@@ -1,12 +1,31 @@
 package com.example.myaccount;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+
+import com.example.myaccount.Model.Payment_model;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,6 +34,13 @@ import android.view.ViewGroup;
  */
 public class Expense_Fragment extends Fragment {
     View view;
+    RecyclerView recyclerView;
+    String uid,bid,currentDate,month;
+    ProgressBar progressBar;
+    Payment_model payment_model=new Payment_model();
+    ArrayList<Payment_model> arr=new ArrayList<>();
+    getlist getlist=new getlist();
+    String type="expense";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +53,12 @@ public class Expense_Fragment extends Fragment {
 
     public Expense_Fragment() {
         // Required empty public constructor
+    }
+
+    public Expense_Fragment(String uid, String bid)
+    {
+        this.uid=uid;
+        this.bid=bid;
     }
 
     /**
@@ -60,7 +92,125 @@ public class Expense_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view=inflater.inflate(R.layout.fragment_expense_, container, false);;
+        view=inflater.inflate(R.layout.fragment_expense_, container, false);
+        Mytaskparams mytaskparams=new Mytaskparams(uid,bid);
+        recyclerView=view.findViewById(R.id.recycleexpense);
+        progressBar=view.findViewById(R.id.progressBarexpense);
+        currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        month=currentDate.substring(3);
+        getlist.execute(mytaskparams);
         return view;
+    }
+
+    private static class Mytaskparams{
+        String uid,bid;
+
+        public Mytaskparams(String uid, String bid) {
+            this.uid = uid;
+            this.bid = bid;
+        }
+    }
+    private class getlist extends AsyncTask<Mytaskparams,Void,Void>
+    {
+
+        @Override
+        protected Void doInBackground(Mytaskparams... mytaskparams)
+        {
+            ArrayList<String>eid=new ArrayList<>();
+            String uid=mytaskparams[0].uid;
+            String bid=mytaskparams[0].bid;
+            if (bid.equals("no"))
+            {
+                final DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
+                reference.child("expense_tbl").orderByChild("uid").equalTo(uid).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        payment_model=snapshot.getValue(Payment_model.class);
+                        arr.add(payment_model);
+                        int count=arr.size();
+                        Log.e("c","="+count);
+                        if (payment_model.getMonth().equals(month))
+                        {
+                            eid.add(payment_model.getExpenseid());
+                        }
+                        Paymentlist_adapter paymentlist_adapter=new Paymentlist_adapter(getActivity(),eid,type);
+                        RecyclerView.LayoutManager manager=new GridLayoutManager(getActivity(),1);
+                        recyclerView.setLayoutManager(manager);
+                        recyclerView.setAdapter(paymentlist_adapter);
+                        progressBar.setVisibility(View.GONE);
+
+                        Log.e("ar","="+eid);
+
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+            else
+            {
+                final DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
+                reference.child("expense_tbl").orderByChild("bid").equalTo(bid).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        payment_model=snapshot.getValue(Payment_model.class);
+                        arr.add(payment_model);
+                        int count=arr.size();
+                        Log.e("c","="+count);
+                        if (payment_model.getMonth().equals(month))
+                        {
+                            eid.add(payment_model.getExpenseid());
+                        }
+                        Paymentlist_adapter paymentlist_adapter=new Paymentlist_adapter(getActivity(),eid,type);
+                        RecyclerView.LayoutManager manager=new GridLayoutManager(getActivity(),1);
+                        recyclerView.setLayoutManager(manager);
+                        recyclerView.setAdapter(paymentlist_adapter);
+                        progressBar.setVisibility(View.GONE);
+
+                        Log.e("ar","="+eid);
+
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+
+            return null;
+        }
     }
 }

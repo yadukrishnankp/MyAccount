@@ -32,13 +32,17 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.UUID;
 
 public class Payment_Details_Activity extends AppCompatActivity {
     String ptype, uid, bid;
     EditText amount, description;
     ImageView upload;
+    String currentDate,currentTime,month;
     Button insert;
 
     //
@@ -71,8 +75,8 @@ public class Payment_Details_Activity extends AppCompatActivity {
         uid = getIntent().getExtras().getString("uid");
         bid = getIntent().getExtras().getString("bid");
         Log.e(getClass().getSimpleName(), "type=" + ptype);
-        Log.e(getClass().getSimpleName(), "uid=" + uid);
-        Log.e(getClass().getSimpleName(), "bid=" + bid);
+        Log.e(getClass().getSimpleName(), "uid=" + currentDate);
+        Log.e(getClass().getSimpleName(), "bid=" + month);
         mAuth = FirebaseAuth.getInstance();
 
         amount = findViewById(R.id.amount_Pd);
@@ -234,32 +238,81 @@ public class Payment_Details_Activity extends AppCompatActivity {
     }
 
     private void insert(String imageUploadId, String url) {
-        if (validation() == true) {
-            FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-            mrefeReference = mDatabase.getReference("Payment_Details");
-            String newKey = mrefeReference.push().getKey();
-            DatabaseReference refs = FirebaseDatabase.getInstance().getReference("Payment_Details").child(newKey);
-            HashMap<String, String> hashMap = new HashMap<>();
-            hashMap.put("paymentid", newKey);
-            hashMap.put("amount", amount.getText().toString());
-            hashMap.put("description", description.getText().toString());
-            hashMap.put("imageurl", url);
-            hashMap.put("uid", uid);
-            refs.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        Intent i = new Intent(getApplicationContext(), User_Home_Activity.class);
-                        i.putExtra("uid", uid);
-                        startActivity(i);
-                        Log.e("Msg", "Success");
-                    } else {
-                        Log.e("Msg", "Failed");
 
+        if (ptype.equals("earnings"))
+        {
+            if (validation() == true) {
+                currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+                month=currentDate.substring(3);
+                FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+                mrefeReference = mDatabase.getReference("Earning_tbl");
+                String newKey = mrefeReference.push().getKey();
+                DatabaseReference refs = FirebaseDatabase.getInstance().getReference("Earning_tbl").child(newKey);
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("earnid", newKey);
+                hashMap.put("amount", amount.getText().toString());
+                hashMap.put("description", description.getText().toString());
+                hashMap.put("imageurl", url);
+                hashMap.put("uid", uid);
+                hashMap.put("bid",bid);
+                hashMap.put("date",currentDate);
+                hashMap.put("time",currentTime);
+                hashMap.put("month",month);
+                refs.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Intent i = new Intent(getApplicationContext(), Business_Activity.class);
+                            i.putExtra("uid", uid);
+                            i.putExtra("bid",bid);
+                            startActivity(i);
+                            Log.e("Msg", "Success");
+                        } else {
+                            Log.e("Msg", "Failed");
+
+                        }
                     }
-                }
-            });
+                });
 
+            }
+        }
+        else if (ptype.equals("expense"))
+        {
+            if (validation() == true) {
+                currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+                month=currentDate.substring(3);
+                FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+                mrefeReference = mDatabase.getReference("expense_tbl");
+                String newKey = mrefeReference.push().getKey();
+                DatabaseReference refs = FirebaseDatabase.getInstance().getReference("expense_tbl").child(newKey);
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("expenseid", newKey);
+                hashMap.put("amount", amount.getText().toString());
+                hashMap.put("description", description.getText().toString());
+                hashMap.put("imageurl", url);
+                hashMap.put("uid", uid);
+                hashMap.put("bid",bid);
+                hashMap.put("date",currentDate);
+                hashMap.put("time",currentTime);
+                hashMap.put("month",month);
+                refs.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Intent i = new Intent(getApplicationContext(), User_Home_Activity.class);
+                            i.putExtra("uid", uid);
+                            startActivity(i);
+                            Log.e("Msg", "Success");
+                        } else {
+                            Log.e("Msg", "Failed");
+
+                        }
+                    }
+                });
+
+            }
         }
     }
 
