@@ -44,7 +44,7 @@ public class Dbhandle extends SQLiteOpenHelper {
         values.put("expenseid",amountModel.getExpense());
         db.insert("expense",null,values);
         db.close();
-        Log.e("inserted","=");
+        Log.e("inserted","expense");
     }
     public void earn_insert(Amount_model amountModel)
     {
@@ -53,6 +53,8 @@ public class Dbhandle extends SQLiteOpenHelper {
         values.put("earnid",amountModel.getEarning());
         db.insert("earning",null,values);
         db.close();
+        Log.e("inserted","earning");
+
     }
     public ArrayList<Amount_model>getexpense()
     {
@@ -110,6 +112,13 @@ public class Dbhandle extends SQLiteOpenHelper {
         Log.e("hi","=");
         SQLiteDatabase db=this.getWritableDatabase();
         db.execSQL("delete from  expense");
+    }
+    public void removeall()
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        db.delete("earning",null,null);
+        db.delete("expense",null,null);
+
     }
 
 

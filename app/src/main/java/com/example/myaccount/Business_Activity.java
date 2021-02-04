@@ -83,8 +83,7 @@ public class Business_Activity extends AppCompatActivity {
         float expense_total=get_total_expense(expense_f);
         float earning_total=get_total_earning(earning_f);
         Log.e("total","="+expense_total+earning_total);
-        dbhandle.delete_earning();
-        dbhandle.delete_expense();
+
 
         ydata[0]=earning_total;
         ydata[1]=expense_total;
@@ -105,8 +104,8 @@ public class Business_Activity extends AppCompatActivity {
         pieChart.setDrawEntryLabels(true);
         pieChart.getDescription().setText("monthly earning and expense");
         pieChart.setEntryLabelTextSize(18f);
-        getexpense.execute(mytaskparams);
-        getearning.execute(mytaskparams);
+//        getexpense.execute(mytaskparams);
+//        getearning.execute(mytaskparams);
 
         AddDataset(pieChart);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -137,6 +136,9 @@ public class Business_Activity extends AppCompatActivity {
                 choose_bottomsheet_fragment.show(getSupportFragmentManager(),"bottomsheet");
             }
         });
+        dbhandle.removeall();
+//        dbhandle.delete_earning();
+//        dbhandle.delete_expense();
 
     }
 
@@ -179,7 +181,7 @@ public class Business_Activity extends AppCompatActivity {
                             amount_model.setExpense(a);
                             Dbhandle dbhandle=new Dbhandle(getApplicationContext());
                             dbhandle.expense_insert(amount_model);
-                            Log.e("s","="+b);
+                            Log.e("s","="+a);
 
                         }
 
@@ -250,7 +252,7 @@ public class Business_Activity extends AppCompatActivity {
                             amount_model.setEarning(a);
                             Dbhandle dbhandle=new Dbhandle(getApplicationContext());
                             dbhandle.earn_insert(amount_model);
-                            Log.e("s","="+b);
+                            Log.e("s","="+a);
 
                         }
 

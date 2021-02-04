@@ -24,21 +24,21 @@
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
     <loaded-nodes>
-      <connection connection-id="5acd8dca-ec31-4642-ac56-0ea5f6de1e53">
+      <connection connection-id="6bcb3bda-b3e0-48c7-83cb-89ad945372c0">
         <schema name="main" object-types="table, view" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="5acd8dca-ec31-4642-ac56-0ea5f6de1e53">
-      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[select * from earning;]]></console>
+    <connection id="6bcb3bda-b3e0-48c7-83cb-89ad945372c0">
+      <console name="Connection 1" type="STANDARD" schema="main" session="Main"><![CDATA[select * from earning;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="5acd8dca-ec31-4642-ac56-0ea5f6de1e53" />
+    <connection id="6bcb3bda-b3e0-48c7-83cb-89ad945372c0" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -63,9 +63,9 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="5acd8dca-ec31-4642-ac56-0ea5f6de1e53" active="true">
+      <connection id="6bcb3bda-b3e0-48c7-83cb-89ad945372c0" active="true">
         <database>
-          <name value="Connection" />
+          <name value="Connection 1" />
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
@@ -78,7 +78,7 @@
           <port value="1234" />
           <database value="database" />
           <files>
-            <file path="C:\Users\user\Desktop\Zpace Shopee2" schema="main" />
+            <file path="C:\Users\user\Desktop\Zpace Shopee3" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />

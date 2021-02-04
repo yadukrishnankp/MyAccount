@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.myaccount.Model.Payment_model;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -60,8 +61,11 @@ public class Paymentlist_adapter extends RecyclerView.Adapter<Paymentlist_adapte
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                     Payment_model model=snapshot.getValue(Payment_model.class);
                     holder.date.setText(model.getDate());
-                    holder.amount.setText(model.getAmount());
+                    holder.amount.setText(model.getAmount()+"₹");
+                    holder.time.setText(model.getTime());
                     holder.description.setText(model.getDescription());
+                    Glide.with(holder.itemView).
+                            load(R.drawable.up_icon).fitCenter().into(holder.payicon);
                 }
 
                 @Override
@@ -95,8 +99,11 @@ public class Paymentlist_adapter extends RecyclerView.Adapter<Paymentlist_adapte
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                     Payment_model model=snapshot.getValue(Payment_model.class);
                     holder.date.setText(model.getDate());
-                    holder.amount.setText(model.getAmount());
+                    holder.amount.setText(model.getAmount()+"₹");
+                    holder.time.setText(model.getTime());
                     holder.description.setText(model.getDescription());
+                    Glide.with(holder.itemView).
+                            load(R.drawable.down_icon).fitCenter().into(holder.payicon);
                 }
 
                 @Override
@@ -130,7 +137,7 @@ public class Paymentlist_adapter extends RecyclerView.Adapter<Paymentlist_adapte
     }
 
     public class Myrecycleholder extends RecyclerView.ViewHolder {
-        TextView date,amount,description;
+        TextView date,amount,description,time;
         ImageView payicon;
         public Myrecycleholder(@NonNull View itemView) {
             super(itemView);
@@ -138,6 +145,7 @@ public class Paymentlist_adapter extends RecyclerView.Adapter<Paymentlist_adapte
             amount=itemView.findViewById(R.id.amountpay);
             description=itemView.findViewById(R.id.descpay);
             payicon=itemView.findViewById(R.id.imgpay);
+            time=itemView.findViewById(R.id.time);
         }
     }
 }

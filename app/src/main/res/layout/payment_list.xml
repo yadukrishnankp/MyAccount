@@ -2,12 +2,20 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        tools:layout_editor_absoluteX="-3dp">
+        android:layout_height="130dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="10dp"
+        android:elevation="20dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,7 +31,9 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
-                android:text="TextView" />
+                android:fontFamily="@font/autour_one"
+                android:text="TextView"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/amountpay"
@@ -35,7 +45,10 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
-                android:text="TextView" />
+                android:fontFamily="@font/autour_one"
+                android:text="TextView"
+                android:textColor="@color/green"
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/descpay"
@@ -44,14 +57,18 @@
                 android:layout_below="@+id/amountpay"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:text="TextView" />
+                android:fontFamily="@font/autour_one"
+                android:text="TextView"
+                android:textColor="@color/black" />
 
             <ImageView
                 android:id="@+id/imgpay"
-                android:layout_width="33dp"
+                android:layout_width="wrap_content"
                 android:layout_height="38dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
@@ -59,6 +76,20 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"></ImageView>
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_toStartOf="@+id/imgpay"
+                android:layout_toLeftOf="@+id/imgpay"
+                android:fontFamily="@font/autour_one"
+                android:text="TextView"
+                android:textColor="@color/black" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -66,21 +66,21 @@ public class User_Home_Activity extends AppCompatActivity {
         full=findViewById(R.id.full_text);
         getexpense(uid);
         getearning(uid);
-        Dbhandle dbhandle=new Dbhandle(getApplicationContext());
-        expense=dbhandle.getexpense();
-        for (Amount_model am:expense)
-        {
-            expense_f.add(Float.valueOf(am.getExpense()));
-            Log.e("expense","="+am.getExpense());
-        }
-        earning=dbhandle.getearning();
-        for (Amount_model am:earning)
-        {
-            earning_f.add(Float.valueOf(am.getEarning()));
-            Log.e("earning","="+am.getEarning());
-        }
-        dbhandle.delete_earning();
-        dbhandle.delete_expense();
+//        Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+//        expense=dbhandle.getexpense();
+//        for (Amount_model am:expense)
+//        {
+//            expense_f.add(Float.valueOf(am.getExpense()));
+//            Log.e("expense","="+am.getExpense());
+//        }
+//        earning=dbhandle.getearning();
+//        for (Amount_model am:earning)
+//        {
+//            earning_f.add(Float.valueOf(am.getEarning()));
+//            Log.e("earning","="+am.getEarning());
+//        }
+//        dbhandle.delete_earning();
+//        dbhandle.delete_expense();
         float expense_total=get_total_expense(expense_f);
         float earning_total=get_total_earning(earning_f);
         Log.e("total","="+expense_total+earning_total);
@@ -113,7 +113,7 @@ public class User_Home_Activity extends AppCompatActivity {
         pieChart.setEntryLabelTextSize(18f);
 
 
-        addDataset(pieChart);
+//        addDataset(pieChart);
 
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override

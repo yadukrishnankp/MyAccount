@@ -197,7 +197,7 @@
                                             <ImageView
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent"
-                                                android:src="@drawable/edit_icon"
+                                                android:src="@drawable/analytics_icon"
                                                 android:layout_marginLeft="40dp"
                                                 android:layout_marginRight="40dp"
                                                 android:layout_marginBottom="40dp"
@@ -217,7 +217,7 @@
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/autour_one"
                                         android:gravity="center"
-                                        android:text="Edit Business" />
+                                        android:text="Business Analysis" />
 
                                 </LinearLayout>
 

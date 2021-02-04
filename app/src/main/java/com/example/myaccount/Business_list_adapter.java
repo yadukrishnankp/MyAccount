@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -56,6 +57,15 @@ public class Business_list_adapter extends RecyclerView.Adapter<Business_list_ad
                context.startActivity(i);
            }
        });
+       holder.edit.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent i=new Intent(context,Edit_Business_Activity.class);
+               i.putExtra("uid",arr.get(position).getUid());
+               i.putExtra("bid",arr.get(position).getBusinessid());
+               context.startActivity(i);
+           }
+       });
 
 
     }
@@ -70,10 +80,12 @@ public class Business_list_adapter extends RecyclerView.Adapter<Business_list_ad
     public class Myrecycleview extends RecyclerView.ViewHolder {
         TextView business_name;
         CardView cardView;
+        ImageView edit;
         public Myrecycleview(@NonNull View itemView) {
             super(itemView);
             business_name=itemView.findViewById(R.id.bnamelist);
             cardView=itemView.findViewById(R.id.businesslisthome);
+            edit=itemView.findViewById(R.id.edit);
 
 
 
