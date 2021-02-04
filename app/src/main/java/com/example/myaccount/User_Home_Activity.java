@@ -156,6 +156,14 @@ public class User_Home_Activity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        Editbusiness.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(getApplicationContext(),Edit_Business_Activity.class);
+                i.putExtra("uid",uid);
+                startActivity(i);
+            }
+        });
     }
 
 
