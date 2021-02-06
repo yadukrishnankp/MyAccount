@@ -27,6 +27,10 @@ public class Dbhandle extends SQLiteOpenHelper {
         db.execSQL(a);
         String b="create table expense(exid integer primary key,expenseid text) ";
         db.execSQL(b);
+        String c="create table expmonth(exmid integer primary key,month text) ";
+        db.execSQL(c);
+        String d="create table ernmonth(ernid integer primary key,month text) ";
+        db.execSQL(d);
     }
 
     @Override
@@ -35,7 +39,27 @@ public class Dbhandle extends SQLiteOpenHelper {
         onCreate(db);
         db.execSQL("drop table if exists expense");
         onCreate(db);
+        db.execSQL("drop table if exists expmonth");
+        onCreate(db);
+        db.execSQL("drop table if exists ernmonth");
+        onCreate(db);
 
+    }
+    public void expmonth_insert(Amount_model amountModel)
+    {
+        SQLiteDatabase  db=this.getWritableDatabase();
+        ContentValues values=new ContentValues();
+        values.put("month",amountModel.getMonth());
+        db.insert("expmonth",null,values);
+        db.close();
+    }
+    public void ernmonth_insert(Amount_model amountModel)
+    {
+        SQLiteDatabase  db=this.getWritableDatabase();
+        ContentValues values=new ContentValues();
+        values.put("month",amountModel.getMonth());
+        db.insert("ernmonth",null,values);
+        db.close();
     }
     public void expense_insert(Amount_model amountModel)
     {
@@ -44,7 +68,7 @@ public class Dbhandle extends SQLiteOpenHelper {
         values.put("expenseid",amountModel.getExpense());
         db.insert("expense",null,values);
         db.close();
-        Log.e("inserted","expense");
+
     }
     public void earn_insert(Amount_model amountModel)
     {
@@ -53,7 +77,6 @@ public class Dbhandle extends SQLiteOpenHelper {
         values.put("earnid",amountModel.getEarning());
         db.insert("earning",null,values);
         db.close();
-        Log.e("inserted","earning");
 
     }
     public ArrayList<Amount_model>getexpense()
@@ -69,6 +92,7 @@ public class Dbhandle extends SQLiteOpenHelper {
                 amount_model.setExid(cursor.getString(0));
                 amount_model.setExpense(cursor.getString(1));
                 list.add(amount_model);
+
             }
             while (cursor.moveToNext());
             {
@@ -76,6 +100,7 @@ public class Dbhandle extends SQLiteOpenHelper {
                 db.close();
             }
         }
+        Log.e("getvalue","exp");
         return list;
     }
     public ArrayList<Amount_model>getearning()
@@ -98,20 +123,68 @@ public class Dbhandle extends SQLiteOpenHelper {
                 db.close();
             }
         }
+        Log.e("getvalue","ern");
+
+        return list;
+    }
+    public ArrayList<Amount_model>getearn_month()
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        ArrayList<Amount_model>list=new ArrayList<>();
+        Amount_model amount_model=null;
+        Cursor cursor=db.rawQuery("select * from ernmonth",null);
+        if (cursor!=null&&cursor.moveToFirst())
+        {
+            do {
+                amount_model=new Amount_model();
+                amount_model.setErnid(cursor.getString(0));
+                amount_model.setMonth(cursor.getString(1));
+                list.add(amount_model);
+            }
+            while (cursor.moveToNext());
+            {
+                cursor.close();
+                db.close();
+            }
+        }
+        return list;
+    }
+    public ArrayList<Amount_model>getexp_month()
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        ArrayList<Amount_model>list=new ArrayList<>();
+        Amount_model amount_model=null;
+        Cursor cursor=db.rawQuery("select * from expmonth",null);
+        if (cursor!=null&&cursor.moveToFirst())
+        {
+            do {
+                amount_model=new Amount_model();
+                amount_model.setExmid(cursor.getString(0));
+                amount_model.setMonth(cursor.getString(1));
+                list.add(amount_model);
+            }
+            while (cursor.moveToNext());
+            {
+                cursor.close();
+                db.close();
+            }
+        }
         return list;
     }
 
     public void delete_earning()
     {
-        Log.e("hi","=");
+
         SQLiteDatabase db=this.getWritableDatabase();
         db.execSQL("delete from  earning");
+        Log.e("delete earning","=");
     }
     public void delete_expense()
     {
-        Log.e("hi","=");
         SQLiteDatabase db=this.getWritableDatabase();
         db.execSQL("delete from  expense");
+        Log.e("delete expense","=");
+
     }
     public void removeall()
     {

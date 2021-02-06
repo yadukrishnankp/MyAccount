@@ -194,6 +194,13 @@
                                             android:layout_height="match_parent"
                                             android:background="@color/green">
 
+                                            <TextView
+                                                android:id="@+id/erntxt"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="TextView"
+                                                app:layout_constraintTop_toTopOf="parent" />
+
                                             <ImageView
                                                 android:layout_width="match_parent"
                                                 android:layout_height="match_parent"
@@ -251,6 +258,14 @@
                                                 android:src="@drawable/others_icon">
 
                                             </ImageView>
+
+                                            <TextView
+                                                android:id="@+id/exptxt"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="TextView"
+                                                app:layout_constraintTop_toTopOf="parent"
+                                                tools:layout_editor_absoluteX="17dp" />
                                         </androidx.constraintlayout.widget.ConstraintLayout>
                                     </androidx.cardview.widget.CardView>
 

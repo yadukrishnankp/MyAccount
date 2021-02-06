@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyAccount">
-        <activity android:name=".Others_Activity"></activity>
+        <activity android:name=".Business_list_Activity"></activity>
+        <activity android:name=".Business_Analysis_Activity" />
+        <activity android:name=".Payment_Activity" />
         <activity android:name=".Full_Payement_Details_Activity" />
         <activity
             android:name=".Edit_Business_Activity"

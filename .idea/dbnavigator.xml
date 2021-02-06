@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DataExportManager">
@@ -23,22 +23,18 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes>
-      <connection connection-id="6bcb3bda-b3e0-48c7-83cb-89ad945372c0">
-        <schema name="main" object-types="table, view" />
-      </connection>
-    </loaded-nodes>
+    <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="6bcb3bda-b3e0-48c7-83cb-89ad945372c0">
-      <console name="Connection 1" type="STANDARD" schema="main" session="Main"><![CDATA[select * from earning;]]></console>
+    <connection id="c95f39ee-8284-4ede-8426-9a340f21058a">
+      <console name="Connection 1" type="STANDARD" schema="main" session="Main"><![CDATA[select * from expense;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="6bcb3bda-b3e0-48c7-83cb-89ad945372c0" />
+    <connection id="c95f39ee-8284-4ede-8426-9a340f21058a" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -63,7 +59,7 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="6bcb3bda-b3e0-48c7-83cb-89ad945372c0" active="true">
+      <connection id="c95f39ee-8284-4ede-8426-9a340f21058a" active="true">
         <database>
           <name value="Connection 1" />
           <description value="" />

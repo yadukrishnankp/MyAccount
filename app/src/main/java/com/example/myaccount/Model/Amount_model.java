@@ -6,6 +6,34 @@ public class Amount_model
     String exid;
     String earning;
 
+    public String getExmid() {
+        return exmid;
+    }
+
+    public void setExmid(String exmid) {
+        this.exmid = exmid;
+    }
+
+    public String getErnid() {
+        return ernid;
+    }
+
+    public void setErnid(String ernid) {
+        this.ernid = ernid;
+    }
+
+    String exmid,ernid;
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    String month;
+
     public String getErid() {
         return erid;
     }

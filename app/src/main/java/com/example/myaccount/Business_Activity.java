@@ -5,12 +5,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.myaccount.Model.Amount_model;
 import com.example.myaccount.Model.Payment_model;
@@ -38,16 +40,19 @@ public class Business_Activity extends AppCompatActivity {
     ViewPager viewPager;
     String uid,bid,currentDate,month;
     PieChart pieChart;
-    ArrayList<Amount_model>expense=new ArrayList<>();
-    ArrayList<Amount_model>earning=new ArrayList<>();
+    TextView exp,ern;
     ArrayList<Float>expense_f=new ArrayList<>();
     ArrayList<Float>earning_f=new ArrayList<>();
+    ArrayList<Amount_model>expense=new ArrayList<>();
+    ArrayList<Amount_model>earning=new ArrayList<>();
     private float ydata[]=new float[2];
     private String xdata[]=new String[2];
     float a;
+    float totalex=0;
+    float totalen=0;
     Payment_model payment_model=new Payment_model();
-    getexpense getexpense=new getexpense();
-    getearning getearning=new getearning();
+//    getexpense getexpense=new getexpense();
+//    getearning getearning=new getearning();
     ArrayList<Float>e=new ArrayList<>();
     public Business_Activity()
     {
@@ -62,36 +67,41 @@ public class Business_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_business_2);
         Dbhandle dbhandle=new Dbhandle(getApplicationContext());
         pieChart=findViewById(R.id.piechartbusiness);
+        exp=findViewById(R.id.exxp);
+        ern=findViewById(R.id.ernn);
         uid=getIntent().getExtras().getString("uid");
         bid=getIntent().getExtras().getString("bid");
-        Mytaskparams mytaskparams=new Mytaskparams(uid,bid);
-        getexpense(bid);
-        getearning(bid);
+//        getexpense(bid);
+//        getearning(bid);
+
         expense=dbhandle.getexpense();
         for (Amount_model am:expense)
         {
             expense_f.add(Float.valueOf(am.getExpense()));
-            Log.e("expense","="+am.getExpense());
+            Log.e("expenesef","="+expense_f);
         }
         earning=dbhandle.getearning();
         for (Amount_model am:earning)
         {
             earning_f.add(Float.valueOf(am.getEarning()));
-            Log.e("earning","="+am.getEarning());
+            Log.e("earningf","="+earning_f);
+
         }
 
         float expense_total=get_total_expense(expense_f);
         float earning_total=get_total_earning(earning_f);
         Log.e("total","="+expense_total+earning_total);
 
-
+//
         ydata[0]=earning_total;
         ydata[1]=expense_total;
         xdata[0]="earnings";
         xdata[1]="expense";
+//        dbhandle.removeall();
 
-        Log.e(getClass().getSimpleName(),"uid="+uid);
-        Log.e(getClass().getSimpleName(),"bid="+bid);
+
+//        Log.e(getClass().getSimpleName(),"uid="+uid);
+//        Log.e(getClass().getSimpleName(),"bid="+bid);
         bottomNavigationView=findViewById(R.id.bottombusi);
         tabLayout=findViewById(R.id.tabLayoutbusinesshome);
         currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
@@ -136,9 +146,9 @@ public class Business_Activity extends AppCompatActivity {
                 choose_bottomsheet_fragment.show(getSupportFragmentManager(),"bottomsheet");
             }
         });
-        dbhandle.removeall();
-//        dbhandle.delete_earning();
-//        dbhandle.delete_expense();
+
+        AddDataset(pieChart);
+
 
     }
 
@@ -147,7 +157,8 @@ public class Business_Activity extends AppCompatActivity {
         float b=0;
         for (float a:arr)
         {
-            b+=a;
+            b=b+a;
+            Log.e("b","="+b);
         }
         return b;
     }
@@ -156,7 +167,7 @@ public class Business_Activity extends AppCompatActivity {
         float b=0;
         for (float a:arr)
         {
-            b+=a;
+            b=b+a;
         }
         return b;
     }
@@ -176,12 +187,17 @@ public class Business_Activity extends AppCompatActivity {
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                             payment_model=snapshot.getValue(Payment_model.class);
                             float b= Float.parseFloat(payment_model.getAmount());
+                            totalex=totalex+b;
                             Amount_model amount_model=new Amount_model();
                             String a= String.valueOf(b);
                             amount_model.setExpense(a);
                             Dbhandle dbhandle=new Dbhandle(getApplicationContext());
                             dbhandle.expense_insert(amount_model);
-                            Log.e("s","="+a);
+                            Log.e("expense","="+totalex);
+                            exp.setText(Float.toString(totalex));
+
+
+
 
                         }
 
@@ -247,12 +263,19 @@ public class Business_Activity extends AppCompatActivity {
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                             payment_model=snapshot.getValue(Payment_model.class);
                             float b= Float.parseFloat(payment_model.getAmount());
+                            totalen=totalen+0;
                             Amount_model amount_model=new Amount_model();
                             String a= String.valueOf(b);
                             amount_model.setEarning(a);
                             Dbhandle dbhandle=new Dbhandle(getApplicationContext());
                             dbhandle.earn_insert(amount_model);
-                            Log.e("s","="+a);
+                            Log.e("earning","="+a);
+                            ern.setText(Float.toString(totalen));
+
+
+
+
+
 
                         }
 
@@ -302,20 +325,19 @@ public class Business_Activity extends AppCompatActivity {
     }
 
 
-    public float gettotal(ArrayList<Float>arr)
-    {
-        float total=0;
-        for (Float f:arr)
-        {
-            total += f;
-        }
-        a=total;
-        return a;
-    }
+//    public float gettotal(ArrayList<Float>arr)
+//    {
+//        float total=0;
+//        for (Float f:arr)
+//        {
+//            total += f;
+//        }
+//        a=total;
+//        return a;
+//    }
 
     private void AddDataset(PieChart pieChart)
     {
-        Log.e("hi","pie");
         ArrayList<PieEntry>yentry=new ArrayList<>();
         ArrayList<String>xentry=new ArrayList<>();
 
@@ -350,142 +372,21 @@ public class Business_Activity extends AppCompatActivity {
         pieChart.invalidate();
     }
 
-    private static class Mytaskparams{
-        String uid,bid;
 
-        public Mytaskparams(String uid, String bid) {
-            this.uid = uid;
-            this.bid = bid;
-        }
+
+
+
+
+
+    @Override
+    public void onBackPressed() {
+        Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+        dbhandle.delete_earning();
+        dbhandle.delete_expense();
+        Intent i=new Intent(getApplicationContext(),View_Business_Activity.class);
+        i.putExtra("uid",uid);
+        i.putExtra("bid",bid);
+        startActivity(i);
     }
-    private  class getexpense extends AsyncTask<Mytaskparams, Void, Void>
-    {
-        SharedPreferences pref;
-       public  float a,c;
-       public float getf(ArrayList<Float>expp)
-       {
-           float total=0;
-           for (Float f:expp)
-           {
-               total += f;
-           }
-           return total;
-       }
-
-
-        @Override
-        protected Void doInBackground(Mytaskparams... mytaskparams) {
-            pref = getSharedPreferences("yadta", MODE_PRIVATE);
-            ArrayList<Float>tt=new ArrayList<>();
-            ArrayList<String> exp=new ArrayList<>();
-            ArrayList<Float>expp=new ArrayList<>();
-            String uid=mytaskparams[0].uid;
-            String bid=mytaskparams[0].bid;
-            final DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
-            reference.child("expense_tbl").orderByChild("bid").equalTo(bid).addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    payment_model=snapshot.getValue(Payment_model.class);
-                    if (payment_model.getMonth().equals(month))
-                    {
-                        float f= Float.parseFloat(payment_model.getAmount());
-                        expp.add(f);
-                    }
-                    Log.e("expar","="+expp);
-
-
-
-
-
-                }
-
-
-
-
-
-
-
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-            return null;
-        }
-
-
-    }
-
-    private class getearning extends AsyncTask<Mytaskparams,Void,Void>
-    {
-
-
-        @Override
-        protected Void doInBackground(Mytaskparams... mytaskparams) {
-            String uid=mytaskparams[0].uid;
-            String bid=mytaskparams[0].bid;
-            final DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
-            reference.child("Earning_tbl").orderByChild("bid").equalTo(bid).addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    payment_model=snapshot.getValue(Payment_model.class);
-                    if (payment_model.getMonth().equals(month))
-                    {
-                        float f= Float.parseFloat(payment_model.getAmount());
-//                        earning=earning+f;
-                    }
-//                    Log.e("earning","="+earning);
-
-                }
-
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-
-                }
-            });
-//            String earn_s=Float.toString(earning);
-//            Log.e("earns","="+earning);
-            return null;
-
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-
-        }
-    }
-
 
 }

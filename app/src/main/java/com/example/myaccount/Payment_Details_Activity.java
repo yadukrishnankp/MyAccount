@@ -301,8 +301,9 @@ public class Payment_Details_Activity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Intent i = new Intent(getApplicationContext(), User_Home_Activity.class);
+                            Intent i = new Intent(getApplicationContext(), Business_Activity.class);
                             i.putExtra("uid", uid);
+                            i.putExtra("bid",bid);
                             startActivity(i);
                             Log.e("Msg", "Success");
                         } else {
@@ -334,4 +335,11 @@ public class Payment_Details_Activity extends AppCompatActivity {
         return  val;
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent i=new Intent(getApplicationContext(),Business_Activity.class);
+        i.putExtra("uid",uid);
+        i.putExtra("bid",bid);
+        startActivity(i);
+    }
 }

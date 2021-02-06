@@ -90,5 +90,10 @@ public class View_Business_Activity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        Intent i=new Intent(getApplicationContext(),User_Home_Activity.class);
+        i.putExtra("uid",uid);
+        startActivity(i);
+    }
 }
