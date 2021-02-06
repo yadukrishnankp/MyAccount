@@ -42,6 +42,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/businessname_ED"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Business name" />
@@ -60,6 +61,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/startingdate_ED"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="starting date" />
@@ -78,6 +80,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textInputLayout7">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/name_ED"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="name" />
@@ -96,13 +99,14 @@
                     app:layout_constraintTop_toBottomOf="@+id/textInputLayout10">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/password_ED"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="password" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/update_ED"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
