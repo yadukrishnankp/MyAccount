@@ -1,4 +1,4 @@
-package com.example.myaccount;
+package com.example.myaccount.Fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.example.myaccount.Adapter.Paymentlist_adapter;
 import com.example.myaccount.Model.Payment_model;
+import com.example.myaccount.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,7 +27,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 
 /**
@@ -131,6 +132,10 @@ public class Earning_Fragment extends Fragment {
                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                        payment_model=snapshot.getValue(Payment_model.class);
                        arr.add(payment_model);
+                       if (arr.size()==0)
+                       {
+                           progressBar.setVisibility(View.GONE);
+                       }
                        int count=arr.size();
                        Log.e("c","="+count);
                        if (payment_model.getMonth().equals(month))

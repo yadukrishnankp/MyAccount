@@ -12,38 +12,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyAccount">
-        <activity android:name=".Business_list_Activity"></activity>
-        <activity android:name=".Business_Analysis_Activity" />
-        <activity android:name=".Payment_Activity" />
-        <activity android:name=".Full_Payement_Details_Activity" />
+        <activity android:name=".Activity.Business_list_Activity"></activity>
+        <activity android:name=".Activity.Business_Analysis_Activity" />
+        <activity android:name=".Activity.Others_Activity" />
+        <activity android:name=".Activity.Payment_Activity" />
+        <activity android:name=".Activity.Full_Payement_Details_Activity" />
         <activity
-            android:name=".Edit_Business_Activity"
+            android:name=".Activity.Edit_Business_Activity"
             android:exported="true" />
         <activity
-            android:name=".Payment_Details_Activity"
+            android:name=".Activity.Payment_Details_Activity"
             android:exported="true" />
         <activity
-            android:name=".Business_Activity"
+            android:name=".Activity.Business_Activity"
             android:exported="true" />
         <activity
-            android:name=".View_Business_Activity"
+            android:name=".Activity.View_Business_Activity"
             android:exported="true" />
-        <activity android:name=".Forgetpassword_Activity" />
+        <activity android:name=".Activity.Forgetpassword_Activity" />
         <activity
-            android:name=".Addbusiness_Activity"
-            android:exported="true" />
-        <activity
-            android:name=".User_Home_Activity"
+            android:name=".Activity.Addbusiness_Activity"
             android:exported="true" />
         <activity
-            android:name=".All_userview_Activity"
-            android:exported="true" />
-        <activity android:name=".Admin_home_Activity" />
-        <activity
-            android:name=".Registration_Activity"
+            android:name=".Activity.User_Home_Activity"
             android:exported="true" />
         <activity
-            android:name=".Login_Activity"
+            android:name=".Activity.All_userview_Activity"
+            android:exported="true" />
+        <activity android:name=".Activity.Admin_home_Activity" />
+        <activity
+            android:name=".Activity.Registration_Activity"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.Login_Activity"
             android:exported="true" />
         <activity android:name=".MainActivity">
             <intent-filter>

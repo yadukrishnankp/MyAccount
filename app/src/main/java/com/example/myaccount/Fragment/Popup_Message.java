@@ -1,10 +1,12 @@
-package com.example.myaccount;
+package com.example.myaccount.Fragment;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+
+import com.example.myaccount.R;
 
 public class Popup_Message
 {

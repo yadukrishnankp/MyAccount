@@ -1,4 +1,4 @@
-package com.example.myaccount;
+package com.example.myaccount.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myaccount.Model.Signup_model;
+import com.example.myaccount.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -144,7 +145,7 @@ public class Registration_Activity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
-                                                Intent i = new Intent(getApplicationContext(),Login_Activity.class);
+                                                Intent i = new Intent(getApplicationContext(), Login_Activity.class);
                                                 startActivity(i);
                                                 Log.e("Msg", "Success");
                                             } else {

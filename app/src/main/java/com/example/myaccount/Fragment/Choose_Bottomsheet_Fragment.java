@@ -1,6 +1,5 @@
-package com.example.myaccount;
+package com.example.myaccount.Fragment;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +10,8 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.myaccount.Activity.Payment_Details_Activity;
+import com.example.myaccount.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class Choose_Bottomsheet_Fragment extends BottomSheetDialogFragment
@@ -33,7 +34,7 @@ public class Choose_Bottomsheet_Fragment extends BottomSheetDialogFragment
         expense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(getActivity(),Payment_Details_Activity.class);
+                Intent i=new Intent(getActivity(), Payment_Details_Activity.class);
                 i.putExtra("ptype","expense");
                 i.putExtra("uid",uid);
                 i.putExtra("bid",bid);

@@ -1,4 +1,4 @@
-package com.example.myaccount;
+package com.example.myaccount.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.myaccount.Model.Signup_model;
+import com.example.myaccount.R;
+import com.example.myaccount.Adapter.User_list_Adapter;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

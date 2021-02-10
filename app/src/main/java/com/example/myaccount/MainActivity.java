@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.myaccount.Activity.Login_Activity;
+import com.example.myaccount.R;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -18,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 try {
                     sleep(1000);
-                    Intent i = new Intent(getApplicationContext(),Login_Activity.class);
+                    Intent i = new Intent(getApplicationContext(), Login_Activity.class);
                     startActivity(i);
                     finish();
                 } catch (InterruptedException e) {

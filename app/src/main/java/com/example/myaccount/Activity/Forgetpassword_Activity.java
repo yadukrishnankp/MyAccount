@@ -1,4 +1,4 @@
-package com.example.myaccount;
+package com.example.myaccount.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +24,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Random;
+
+import com.example.myaccount.R;
 
 public class Forgetpassword_Activity extends AppCompatActivity {
 

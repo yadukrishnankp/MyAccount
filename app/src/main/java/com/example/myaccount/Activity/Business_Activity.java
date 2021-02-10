@@ -1,4 +1,4 @@
-package com.example.myaccount;
+package com.example.myaccount.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -6,16 +6,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.myaccount.Adapter.Business_page_adapter;
+import com.example.myaccount.Fragment.Choose_Bottomsheet_Fragment;
+import com.example.myaccount.Local_Database.Dbhandle;
 import com.example.myaccount.Model.Amount_model;
 import com.example.myaccount.Model.Payment_model;
+import com.example.myaccount.R;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
@@ -65,59 +68,79 @@ public class Business_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_2);
-        Dbhandle dbhandle=new Dbhandle(getApplicationContext());
-        pieChart=findViewById(R.id.piechartbusiness);
         exp=findViewById(R.id.exxp);
         ern=findViewById(R.id.ernn);
+        bottomNavigationView=findViewById(R.id.bottombusi);
+        tabLayout=findViewById(R.id.tabLayoutbusinesshome);
+        Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+        pieChart=findViewById(R.id.piechartbusiness);
+        currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        month=currentDate.substring(3);
         uid=getIntent().getExtras().getString("uid");
         bid=getIntent().getExtras().getString("bid");
-//        getexpense(bid);
-//        getearning(bid);
 
-        expense=dbhandle.getexpense();
-        for (Amount_model am:expense)
-        {
-            expense_f.add(Float.valueOf(am.getExpense()));
-            Log.e("expenesef","="+expense_f);
-        }
-        earning=dbhandle.getearning();
-        for (Amount_model am:earning)
-        {
-            earning_f.add(Float.valueOf(am.getEarning()));
-            Log.e("earningf","="+earning_f);
+//        new Handler(getMainLooper()).postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                getexpense(bid);
+//                getearning(bid);
+//            }
+//        },2000);
+      new Handler(getMainLooper()).postDelayed(new Runnable() {
+          @Override
+          public void run() {
+              expense=dbhandle.getexpense();
+              for (Amount_model am:expense)
+              {
+                  expense_f.add(Float.valueOf(am.getExpense()));
+                  Log.e("expenesef","="+expense_f);
+              }
+              earning=dbhandle.getearning();
+              for (Amount_model am:earning)
+              {
+                  earning_f.add(Float.valueOf(am.getEarning()));
+                  Log.e("earningf","="+earning_f);
 
-        }
+              }
 
-        float expense_total=get_total_expense(expense_f);
-        float earning_total=get_total_earning(earning_f);
-        Log.e("total","="+expense_total+earning_total);
+              float expense_total=get_total_expense(expense_f);
+              float earning_total=get_total_earning(earning_f);
+              Log.e("total","="+expense_total+earning_total);
 
 //
-        ydata[0]=earning_total;
-        ydata[1]=expense_total;
-        xdata[0]="earnings";
-        xdata[1]="expense";
+              ydata[0]=earning_total;
+              ydata[1]=expense_total;
+              xdata[0]="earnings";
+              xdata[1]="expense";
+          }
+      },2000);
+
+      new Handler(getMainLooper()).postDelayed(new Runnable() {
+          @Override
+          public void run() {
+              pieChart.setHoleRadius(25f);
+              pieChart.setTransparentCircleAlpha(0);
+              pieChart.setCenterText("My Accounts");
+
+              pieChart.setCenterTextSize(10);
+              pieChart.setDrawEntryLabels(true);
+              pieChart.getDescription().setText("monthly earning and expense");
+              pieChart.setEntryLabelTextSize(18f);
+//        getexpense.execute(mytaskparams);
+//        getearning.execute(mytaskparams);
+
+              AddDataset(pieChart);
+          }
+      },2000);
+
+
 //        dbhandle.removeall();
 
 
 //        Log.e(getClass().getSimpleName(),"uid="+uid);
 //        Log.e(getClass().getSimpleName(),"bid="+bid);
-        bottomNavigationView=findViewById(R.id.bottombusi);
-        tabLayout=findViewById(R.id.tabLayoutbusinesshome);
-        currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        month=currentDate.substring(3);
-        pieChart.setHoleRadius(25f);
-        pieChart.setTransparentCircleAlpha(0);
-        pieChart.setCenterText("My Accounts");
 
-        pieChart.setCenterTextSize(10);
-        pieChart.setDrawEntryLabels(true);
-        pieChart.getDescription().setText("monthly earning and expense");
-        pieChart.setEntryLabelTextSize(18f);
-//        getexpense.execute(mytaskparams);
-//        getearning.execute(mytaskparams);
 
-        AddDataset(pieChart);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         viewPager=findViewById(R.id.viewpagerbusiness);
         Business_page_adapter business_page_adapter=new Business_page_adapter(this,getSupportFragmentManager(),tabLayout.getTabCount(),uid,bid);
@@ -383,7 +406,7 @@ public class Business_Activity extends AppCompatActivity {
         Dbhandle dbhandle=new Dbhandle(getApplicationContext());
         dbhandle.delete_earning();
         dbhandle.delete_expense();
-        Intent i=new Intent(getApplicationContext(),View_Business_Activity.class);
+        Intent i=new Intent(getApplicationContext(), View_Business_Activity.class);
         i.putExtra("uid",uid);
         i.putExtra("bid",bid);
         startActivity(i);

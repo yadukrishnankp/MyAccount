@@ -1,4 +1,4 @@
-package com.example.myaccount;
+package com.example.myaccount.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.myaccount.Model.Addbusiness_model;
+import com.example.myaccount.R;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -33,16 +34,16 @@ public class Edit_Business_Activity extends AppCompatActivity {
         uid=getIntent().getExtras().getString("uid");
         bid=getIntent().getExtras().getString("bid");
 
-        Bname_ED=findViewById(R.id.businessname_ED);
-        Sdate_ED=findViewById(R.id.startingdate_ED);
-        Name_ED=findViewById(R.id.name_ED);
-        Password_ED=findViewById(R.id.password_ED);
-        Update_ED=findViewById(R.id.update_ED);
-        Addbusiness_model bm=new Addbusiness_model();
-        bm.setBusinessname(Bname_ED.getEditText().getText().toString());
-        bm.setStartingdate(Sdate_ED.getEditText().getText().toString());
-        bm.setVendorname(Name_ED.getEditText().getText().toString());
-        bm.setPassword(Password_ED.getEditText().getText().toString());
+//        Bname_ED=findViewById(R.id.businessname_ED);
+//        Sdate_ED=findViewById(R.id.startingdate_ED);
+//        Name_ED=findViewById(R.id.name_ED);
+//        Password_ED=findViewById(R.id.password_ED);
+//        Update_ED=findViewById(R.id.update_ED);
+//        Addbusiness_model bm=new Addbusiness_model();
+//        bm.setBusinessname(Bname_ED.getEditText().getText().toString());
+//        bm.setStartingdate(Sdate_ED.getEditText().getText().toString());
+//        bm.setVendorname(Name_ED.getEditText().getText().toString());
+//        bm.setPassword(Password_ED.getEditText().getText().toString());
 
 
         Update_ED.setOnClickListener(new View.OnClickListener() {

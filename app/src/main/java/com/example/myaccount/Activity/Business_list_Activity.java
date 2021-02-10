@@ -1,4 +1,4 @@
-package com.example.myaccount;
+package com.example.myaccount.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+import com.example.myaccount.Adapter.Business_list_Adapter_2;
 import com.example.myaccount.Model.Addbusiness_model;
+import com.example.myaccount.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,6 +23,7 @@ public class Business_list_Activity extends AppCompatActivity {
     String uid;
     RecyclerView recyclerView;
     Addbusiness_model addbusiness_model=new Addbusiness_model();
+    ArrayList<Addbusiness_model>arrayList=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,6 @@ public class Business_list_Activity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 addbusiness_model=snapshot.getValue(Addbusiness_model.class);
-                ArrayList<Addbusiness_model>arrayList=new ArrayList<>();
                 arrayList.add(addbusiness_model);
                 Business_list_Adapter_2 business_list_adapter_2=new Business_list_Adapter_2(Business_list_Activity.this,arrayList);
                 RecyclerView.LayoutManager manager=new GridLayoutManager(Business_list_Activity.this,1);

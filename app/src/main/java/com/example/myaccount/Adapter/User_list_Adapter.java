@@ -1,4 +1,4 @@
-package com.example.myaccount;
+package com.example.myaccount.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myaccount.Model.Signup_model;
+import com.example.myaccount.R;
 
 import java.util.ArrayList;
 

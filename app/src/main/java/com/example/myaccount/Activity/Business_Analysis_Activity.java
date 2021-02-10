@@ -1,7 +1,5 @@
-package com.example.myaccount;
+package com.example.myaccount.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,12 +10,9 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.myaccount.Model.Payment_model;
+import com.example.myaccount.Adapter.Months_list_Adapter;
+import com.example.myaccount.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -47,7 +42,7 @@ public class Business_Analysis_Activity extends AppCompatActivity {
         bottomNavigationView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),Business_list_Activity.class);
+                Intent intent=new Intent(getApplicationContext(), Business_list_Activity.class);
                 intent.putExtra("uid",uid);
                 startActivity(intent);
             }

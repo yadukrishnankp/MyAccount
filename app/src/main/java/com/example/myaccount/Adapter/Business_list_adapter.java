@@ -1,4 +1,4 @@
-package com.example.myaccount;
+package com.example.myaccount.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,10 +14,13 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myaccount.Activity.Business_Activity;
+import com.example.myaccount.Activity.Edit_Business_Activity;
+import com.example.myaccount.Local_Database.Dbhandle;
 import com.example.myaccount.Model.Addbusiness_model;
 import com.example.myaccount.Model.Amount_model;
 import com.example.myaccount.Model.Payment_model;
-import com.example.myaccount.Model.Signup_model;
+import com.example.myaccount.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -223,7 +226,7 @@ public class Business_list_adapter extends RecyclerView.Adapter<Business_list_ad
                month=currentDate.substring(3);
                getexpense(arr.get(position).getBusinessid());
                getearning(arr.get(position).getBusinessid());
-               Intent i=new Intent(context,Business_Activity.class);
+               Intent i=new Intent(context, Business_Activity.class);
                i.putExtra("uid",arr.get(position).getUid());
                i.putExtra("bid",arr.get(position).getBusinessid());
                context.startActivity(i);
@@ -232,7 +235,7 @@ public class Business_list_adapter extends RecyclerView.Adapter<Business_list_ad
        holder.edit.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               Intent i=new Intent(context,Edit_Business_Activity.class);
+               Intent i=new Intent(context, Edit_Business_Activity.class);
                i.putExtra("uid",arr.get(position).getUid());
                i.putExtra("bid",arr.get(position).getBusinessid());
                context.startActivity(i);

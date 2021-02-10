@@ -1,4 +1,4 @@
-package com.example.myaccount;
+package com.example.myaccount.Fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,7 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.example.myaccount.Adapter.Paymentlist_adapter;
 import com.example.myaccount.Model.Payment_model;
+import com.example.myaccount.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

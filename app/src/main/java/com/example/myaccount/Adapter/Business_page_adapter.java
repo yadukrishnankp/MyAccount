@@ -1,4 +1,4 @@
-package com.example.myaccount;
+package com.example.myaccount.Adapter;
 
 import android.content.Context;
 
@@ -6,6 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+
+import com.example.myaccount.Fragment.Earning_Fragment;
+import com.example.myaccount.Fragment.Expense_Fragment;
 
 public class Business_page_adapter extends FragmentPagerAdapter {
     Context context;

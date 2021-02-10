@@ -1,8 +1,10 @@
-package com.example.myaccount;
+package com.example.myaccount.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.myaccount.R;
 
 public class Payment_Activity extends AppCompatActivity {
 

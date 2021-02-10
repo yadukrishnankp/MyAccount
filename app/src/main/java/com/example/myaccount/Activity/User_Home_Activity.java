@@ -1,4 +1,4 @@
-package com.example.myaccount;
+package com.example.myaccount.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,21 +9,20 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.myaccount.Local_Database.Dbhandle;
 import com.example.myaccount.Model.Amount_model;
 import com.example.myaccount.Model.Payment_model;
+import com.example.myaccount.R;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -59,8 +58,8 @@ public class User_Home_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user__home_);
-//        Dbhandle dbhandle=new Dbhandle(getApplicationContext());
-        Log.e("b","="+ydata);
+        Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+        pieChart=findViewById(R.id.charthome);
         uid=getIntent().getExtras().getString("uid");
         currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         month=currentDate.substring(3);
@@ -72,12 +71,58 @@ public class User_Home_Activity extends AppCompatActivity {
         full=findViewById(R.id.full_text);
         exptxt=findViewById(R.id.exptxt);
         erntxt=findViewById(R.id.erntxt);
-        getexpense(uid);
-        getearning(uid);
+        toolbar=findViewById(R.id.hometoolbar_user);
+        title=toolbar.findViewById(R.id.hometitle);
+        title.setText("My Accounts");
         getmonthexpense(uid);
         getmonthearning(uid);
-//        ern_month=dbhandle.getearn_month();
-//        exp_month=dbhandle.getexp_month();
+        new Handler(getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+//                getexpense(uid);
+//                getearning(uid);
+            }
+        },4000);
+        new Handler(getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                expense=dbhandle.getexpense();
+                for (Amount_model am:expense)
+                {
+                    expense_f.add(Float.valueOf(am.getExpense()));
+                    Log.e("expense","="+am.getExpense());
+                }
+                earning=dbhandle.getearning();
+                for (Amount_model am:earning)
+                {
+                    earning_f.add(Float.valueOf(am.getEarning()));
+                    Log.e("earning","="+am.getEarning());
+                }
+                float expense_total=get_total_expense(expense_f);
+                float earning_total=get_total_earning(earning_f);
+                Log.e("total","="+expense_total+earning_total);
+                ydata[0]=earning_total;
+                ydata[1]=expense_total;
+                xdata[0]="earnings";
+                xdata[1]="expense";
+            }
+        },4000);
+        new Handler(getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dbhandle.delete_earning();
+                dbhandle.delete_expense();
+            }
+        },4000);
+        new Handler(getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dbhandle.delete_earning();
+                dbhandle.delete_expense();
+            }
+        },4000);
+        ern_month=dbhandle.getearn_month();
+        exp_month=dbhandle.getexp_month();
         for (Amount_model model:ern_month)
         {
             ern_month_string.add(model.getMonth());
@@ -87,83 +132,58 @@ public class User_Home_Activity extends AppCompatActivity {
             exp_month_string.add(model.getMonth());
         }
         Log.e("allmonth","="+ern_month_string+"=="+exp_month_string);
-//        expense=dbhandle.getexpense();
-//        for (Amount_model am:expense)
-//        {
-//            expense_f.add(Float.valueOf(am.getExpense()));
-//            Log.e("expense","="+am.getExpense());
-//        }
-//        earning=dbhandle.getearning();
-//        for (Amount_model am:earning)
-//        {
-//            earning_f.add(Float.valueOf(am.getEarning()));
-//            Log.e("earning","="+am.getEarning());
-//        }
-//        dbhandle.delete_earning();
-//        dbhandle.delete_expense();
+        new Handler(getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                pieChart.setHoleRadius(25f);
+                pieChart.setTransparentCircleAlpha(0);
+                pieChart.setCenterText("My Accounts");
+                pieChart.setCenterTextSize(10);
+                pieChart.setDrawEntryLabels(true);
+                pieChart.getDescription().setText("monthly earning and expense");
+                pieChart.setEntryLabelTextSize(18f);
+                addDataset(pieChart);
 
-        float expense_total=get_total_expense(expense_f);
-        float earning_total=get_total_earning(earning_f);
-        Log.e("total","="+expense_total+earning_total);
-        ydata[0]=earning_total;
-        ydata[1]=expense_total;
-        xdata[0]="earnings";
-        xdata[1]="expense";
+            }
+        },4000);
+
         full.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),Full_Payement_Details_Activity.class);
+                Intent intent=new Intent(getApplicationContext(), Full_Payement_Details_Activity.class);
                 intent.putExtra("uid",uid);
                 startActivity(intent);
             }
         });
 
-
-
-
-        toolbar=findViewById(R.id.hometoolbar_user);
-        title=toolbar.findViewById(R.id.hometitle);
-        title.setText("My Accounts");
-        pieChart=findViewById(R.id.charthome);
-        pieChart.setHoleRadius(25f);
-        pieChart.setTransparentCircleAlpha(0);
-        pieChart.setCenterText("My Accounts");
-        pieChart.setCenterTextSize(10);
-        pieChart.setDrawEntryLabels(true);
-        pieChart.getDescription().setText("monthly earning and expense");
-        pieChart.setEntryLabelTextSize(18f);
-
-
-//        addDataset(pieChart);
-
-        pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
-            @Override
-            public void onValueSelected(Entry e, Highlight h) {
-                View view;
-                int pos1 = e.toString().indexOf("(sum): ");
-                String sales = e.toString().substring(pos1 + 2);
-
-//                for(int i = 0; i < ydata.length; i++){
-//                    if(ydata[i] == Float.parseFloat(sales)){
-//                        pos1 = i;
-//                        break;
-//                    }
-//                }
-
-                String employee = xdata[pos1 + 1];
-                Toast.makeText(User_Home_Activity.this, "Employee " + employee + "\n" + "Sales: $" + sales + "K", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected() {
-
-            }
-        });
+//        pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+//            @Override
+//            public void onValueSelected(Entry e, Highlight h) {
+//                View view;
+//                int pos1 = e.toString().indexOf("(sum): ");
+//                String sales = e.toString().substring(pos1 + 2);
+//
+////                for(int i = 0; i < ydata.length; i++){
+////                    if(ydata[i] == Float.parseFloat(sales)){
+////                        pos1 = i;
+////                        break;
+////                    }
+////                }
+//
+//                String employee = xdata[pos1 + 1];
+//                Toast.makeText(User_Home_Activity.this, "Employee " + employee + "\n" + "Sales: $" + sales + "K", Toast.LENGTH_LONG).show();
+//            }
+//
+//            @Override
+//            public void onNothingSelected() {
+//
+//            }
+//        });
 
         Addbusiness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(getApplicationContext(),Addbusiness_Activity.class);
+                Intent i=new Intent(getApplicationContext(), Addbusiness_Activity.class);
                 i.putExtra("uid",uid);
                 startActivity(i);
             }
@@ -172,7 +192,7 @@ public class User_Home_Activity extends AppCompatActivity {
         Viewbusiness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(getApplicationContext(),View_Business_Activity.class);
+                Intent i=new Intent(getApplicationContext(), View_Business_Activity.class);
                 i.putExtra("uid",uid);
                 startActivity(i);
             }
@@ -183,12 +203,21 @@ public class User_Home_Activity extends AppCompatActivity {
                ArrayList<String>month=new ArrayList<>();
                month.addAll(exp_month_string);
                month.addAll(ern_month_string);
-                Intent i=new Intent(getApplicationContext(),Business_Analysis_Activity.class);
+                Intent i=new Intent(getApplicationContext(), Business_Analysis_Activity.class);
                 i.putExtra("uid",uid);
                 i.putExtra("month",month);
                 startActivity(i);
             }
         });
+        Other.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(getApplicationContext(), Others_Activity.class);
+                i.putExtra("uid",uid);
+                startActivity(i);
+            }
+        });
+
     }
 
 
@@ -203,7 +232,7 @@ public class User_Home_Activity extends AppCompatActivity {
             yentry.add(new PieEntry(ydata[i],i));
         }
 
-        for(int i = 1; i < xdata.length; i++){
+        for (int i = 1; i < xdata.length; i++){
             xentry.add(xdata[i]);
         }
 
@@ -396,10 +425,10 @@ public class User_Home_Activity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 payment_model=snapshot.getValue(Payment_model.class);
-//                Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+                Dbhandle dbhandle=new Dbhandle(getApplicationContext());
                 Amount_model amount_model=new Amount_model();
                 amount_model.setMonth(payment_model.getMonth());
-//                dbhandle.expmonth_insert(amount_model);
+                dbhandle.expmonth_insert(amount_model);
 
 
 
@@ -438,10 +467,10 @@ public class User_Home_Activity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 payment_model=snapshot.getValue(Payment_model.class);
-//                Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+                Dbhandle dbhandle=new Dbhandle(getApplicationContext());
                 Amount_model amount_model=new Amount_model();
                 amount_model.setMonth(payment_model.getMonth());
-//                dbhandle.ernmonth_insert(amount_model);
+                dbhandle.ernmonth_insert(amount_model);
 
 
 

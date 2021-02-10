@@ -1,10 +1,12 @@
-package com.example.myaccount;
+package com.example.myaccount.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 
+import com.example.myaccount.Adapter.Business_page_adapter;
+import com.example.myaccount.R;
 import com.google.android.material.tabs.TabLayout;
 
 public class Full_Payement_Details_Activity extends AppCompatActivity {

@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Addbusiness_Activity">
+    tools:context=".Activity.Addbusiness_Activity">
 
     <include
         android:id="@+id/toolabraddbusi"
