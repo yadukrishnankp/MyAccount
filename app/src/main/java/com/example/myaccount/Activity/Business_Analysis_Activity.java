@@ -23,32 +23,32 @@ public class Business_Analysis_Activity extends AppCompatActivity {
     ArrayList<String>month=new ArrayList<>();
     ArrayList<String>month_filltered=new ArrayList<>();
     BottomNavigationView bottomNavigationView;
+    String activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_business__analysis_);
-        recyclerView=findViewById(R.id.recyclemonthuser);
-        bottomNavigationView=findViewById(R.id.bottombar);
-        uid=getIntent().getExtras().getString("uid");
-        month= (ArrayList<String>) getIntent().getSerializableExtra("month");
-        Log.e("m","="+month);
-        month_filltered=arrdup(month);
-        Log.e("m","="+month_filltered);
-        Months_list_Adapter months_list_adapter=new Months_list_Adapter(Business_Analysis_Activity.this,month_filltered,uid);
-        RecyclerView.LayoutManager manager=new GridLayoutManager(Business_Analysis_Activity.this,1);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(months_list_adapter);
-        bottomNavigationView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(), Business_list_Activity.class);
-                intent.putExtra("uid",uid);
-                startActivity(intent);
-            }
-        });
-
-
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_business__analysis_);
+            recyclerView=findViewById(R.id.recyclemonthuser);
+            bottomNavigationView=findViewById(R.id.bottombar);
+            uid=getIntent().getExtras().getString("uid");
+            activity="business_analysis_activity";
+            month= (ArrayList<String>) getIntent().getSerializableExtra("month");
+            Log.e("m","="+month);
+            month_filltered=arrdup(month);
+            Log.e("m","="+month_filltered);
+            Months_list_Adapter months_list_adapter=new Months_list_Adapter(Business_Analysis_Activity.this,month_filltered,uid,activity);
+            RecyclerView.LayoutManager manager=new GridLayoutManager(Business_Analysis_Activity.this,1);
+            recyclerView.setLayoutManager(manager);
+            recyclerView.setAdapter(months_list_adapter);
+            bottomNavigationView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(getApplicationContext(), Business_list_Activity.class);
+                    intent.putExtra("uid",uid);
+                    startActivity(intent);
+                }
+            });
     }
     public ArrayList<String> arrdup(ArrayList<String>arr)
     {

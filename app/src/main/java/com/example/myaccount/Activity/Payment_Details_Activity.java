@@ -39,7 +39,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class Payment_Details_Activity extends AppCompatActivity {
-    String ptype, uid, bid;
+    String ptype, uid, bid,type;
     EditText amount, description;
     ImageView upload;
     String currentDate,currentTime,month;
@@ -74,6 +74,7 @@ public class Payment_Details_Activity extends AppCompatActivity {
         ptype = getIntent().getExtras().getString("ptype");
         uid = getIntent().getExtras().getString("uid");
         bid = getIntent().getExtras().getString("bid");
+        type=getIntent().getExtras().getString("type");
         Log.e(getClass().getSimpleName(), "type=" + ptype);
         Log.e(getClass().getSimpleName(), "uid=" + currentDate);
         Log.e(getClass().getSimpleName(), "bid=" + month);
@@ -263,11 +264,23 @@ public class Payment_Details_Activity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Intent i = new Intent(getApplicationContext(), Business_Activity.class);
-                            i.putExtra("uid", uid);
-                            i.putExtra("bid",bid);
-                            startActivity(i);
-                            Log.e("Msg", "Success");
+                            if (type.equals("admin"))
+                            {
+                                Intent i = new Intent(getApplicationContext(), Business_Activity.class);
+                                i.putExtra("uid", uid);
+                                i.putExtra("bid",bid);
+                                startActivity(i);
+                                Log.e("Msg", "Success");
+                            }
+                            else if (type.equals("user"))
+                            {
+                                Intent i = new Intent(getApplicationContext(),Business_home_Activity.class);
+                                i.putExtra("uid", uid);
+                                i.putExtra("bid",bid);
+                                startActivity(i);
+                                Log.e("Msg", "Success");
+                            }
+
                         } else {
                             Log.e("Msg", "Failed");
 
@@ -301,11 +314,23 @@ public class Payment_Details_Activity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Intent i = new Intent(getApplicationContext(), Business_Activity.class);
-                            i.putExtra("uid", uid);
-                            i.putExtra("bid",bid);
-                            startActivity(i);
-                            Log.e("Msg", "Success");
+                            if (type.equals("admin"))
+                            {
+                                Intent i = new Intent(getApplicationContext(),Business_Activity.class);
+                                i.putExtra("uid", uid);
+                                i.putExtra("bid",bid);
+                                startActivity(i);
+                                Log.e("Msg", "Success");
+                            }
+                            else if (type.equals("user"))
+                            {
+                                Intent i = new Intent(getApplicationContext(),Business_home_Activity.class);
+                                i.putExtra("uid", uid);
+                                i.putExtra("bid",bid);
+                                startActivity(i);
+                                Log.e("Msg", "Success");
+                            }
+
                         } else {
                             Log.e("Msg", "Failed");
 

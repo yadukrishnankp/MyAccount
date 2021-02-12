@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class View_Business_Activity extends AppCompatActivity {
     RecyclerView recyclerView;
     ProgressBar progressBar;
-    String uid;
+    String uid,activity;
     viewbusiness viewbusiness=new viewbusiness();
     ArrayList<Addbusiness_model>arr=new ArrayList<>();
     Addbusiness_model addbusiness_model=new Addbusiness_model();
@@ -37,6 +37,7 @@ public class View_Business_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view__business_);
         uid=getIntent().getExtras().getString("uid");
+        activity="view_business_activity";
         recyclerView=findViewById(R.id.buislist);
         progressBar=findViewById(R.id.progressbusiloist);
         viewbusiness.execute(uid);
@@ -56,7 +57,7 @@ public class View_Business_Activity extends AppCompatActivity {
                 public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                     addbusiness_model=snapshot.getValue(Addbusiness_model.class);
                     arr.add(addbusiness_model);
-                    Business_list_adapter business_list_adapter=new Business_list_adapter(View_Business_Activity.this,arr);
+                    Business_list_adapter business_list_adapter=new Business_list_adapter(View_Business_Activity.this,arr,activity);
                     RecyclerView.LayoutManager manager=new GridLayoutManager(View_Business_Activity.this,1);
                     recyclerView.setLayoutManager(manager);
                     recyclerView.setAdapter(business_list_adapter);

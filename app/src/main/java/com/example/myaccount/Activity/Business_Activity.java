@@ -41,9 +41,10 @@ public class Business_Activity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     TabLayout tabLayout;
     ViewPager viewPager;
-    String uid,bid,currentDate,month;
+    String uid,bid,currentDate,month,activity,smonth;
     PieChart pieChart;
     TextView exp,ern;
+    String type;
     ArrayList<Float>expense_f=new ArrayList<>();
     ArrayList<Float>earning_f=new ArrayList<>();
     ArrayList<Amount_model>expense=new ArrayList<>();
@@ -78,6 +79,9 @@ public class Business_Activity extends AppCompatActivity {
         month=currentDate.substring(3);
         uid=getIntent().getExtras().getString("uid");
         bid=getIntent().getExtras().getString("bid");
+        smonth=getIntent().getExtras().getString("month");
+        activity=getIntent().getExtras().getString("activity");
+        type="admin";
 
 //        new Handler(getMainLooper()).postDelayed(new Runnable() {
 //            @Override
@@ -143,7 +147,7 @@ public class Business_Activity extends AppCompatActivity {
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         viewPager=findViewById(R.id.viewpagerbusiness);
-        Business_page_adapter business_page_adapter=new Business_page_adapter(this,getSupportFragmentManager(),tabLayout.getTabCount(),uid,bid);
+        Business_page_adapter business_page_adapter=new Business_page_adapter(this,getSupportFragmentManager(),tabLayout.getTabCount(),uid,bid,smonth);
         viewPager.setAdapter(business_page_adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -165,7 +169,7 @@ public class Business_Activity extends AppCompatActivity {
         bottomNavigationView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Choose_Bottomsheet_Fragment choose_bottomsheet_fragment=new Choose_Bottomsheet_Fragment(uid,bid);
+                Choose_Bottomsheet_Fragment choose_bottomsheet_fragment=new Choose_Bottomsheet_Fragment(uid,bid,type);
                 choose_bottomsheet_fragment.show(getSupportFragmentManager(),"bottomsheet");
             }
         });
@@ -403,13 +407,31 @@ public class Business_Activity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+//        if (activity.equals("view_business_activity"))
+//        {
+//            Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+//            dbhandle.delete_earning();
+//            dbhandle.delete_expense();
+//            Intent i=new Intent(getApplicationContext(), View_Business_Activity.class);
+//            i.putExtra("uid",uid);
+//            i.putExtra("bid",bid);
+//            startActivity(i);
+//        }
+//        else if (activity.equals("business_analysis_activity"))
+//        {
+//            Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+//            dbhandle.delete_earning();
+//            dbhandle.delete_expense();
+////            Intent i=new Intent(getApplicationContext(), Business_Analysis_Activity.class);
+////            i.putExtra("uid",uid);
+////            startActivity(i);
+//            finish();
+//        }
         Dbhandle dbhandle=new Dbhandle(getApplicationContext());
         dbhandle.delete_earning();
         dbhandle.delete_expense();
-        Intent i=new Intent(getApplicationContext(), View_Business_Activity.class);
-        i.putExtra("uid",uid);
-        i.putExtra("bid",bid);
-        startActivity(i);
+        finish();
+
     }
 
 }

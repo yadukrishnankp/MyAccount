@@ -3,6 +3,7 @@ package com.example.myaccount.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myaccount.Fragment.Popup_Message;
 import com.example.myaccount.Model.Signup_model;
 import com.example.myaccount.R;
 import com.google.firebase.database.ChildEventListener;
@@ -25,12 +27,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import jp.wasabeef.blurry.Blurry;
+
 public class Login_Activity extends AppCompatActivity {
     EditText UserName,Password;
-    TextView ForgetPassword;
+    TextView ForgetPassword,login_as;
     Button Login;
     String uid, type;
     SharedPreferences pref;
+    ConstraintLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +44,9 @@ public class Login_Activity extends AppCompatActivity {
         UserName = findViewById(R.id.lausername);
         Password = findViewById(R.id.lapassword);
         Login = findViewById(R.id.lalogin);
+        login_as=findViewById(R.id.loginas);
         ForgetPassword = findViewById(R.id.laforgotpassword);
+        layout=findViewById(R.id.loginlay);
 
         pref = getSharedPreferences("NewRegistration", MODE_PRIVATE);
 
@@ -86,6 +93,14 @@ public class Login_Activity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "No internet connection", Toast.LENGTH_LONG).show();
                 }
 
+            }
+        });
+
+        login_as.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Popup_Message popup_message=new Popup_Message(Login_Activity.this);
+                popup_message.show_popup_window(v);
             }
         });
     }

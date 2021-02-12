@@ -37,7 +37,7 @@ import java.util.Locale;
 public class Expense_Fragment extends Fragment {
     View view;
     RecyclerView recyclerView;
-    String uid,bid,currentDate,month;
+    String uid,bid,currentDate,month,smonth;
     ProgressBar progressBar;
     Payment_model payment_model=new Payment_model();
     ArrayList<Payment_model> arr=new ArrayList<>();
@@ -57,10 +57,11 @@ public class Expense_Fragment extends Fragment {
         // Required empty public constructor
     }
 
-    public Expense_Fragment(String uid, String bid)
+    public Expense_Fragment(String uid, String bid,String smonth)
     {
         this.uid=uid;
         this.bid=bid;
+        this.smonth=smonth;
     }
 
     /**
@@ -132,6 +133,51 @@ public class Expense_Fragment extends Fragment {
                         int count=arr.size();
                         Log.e("c","="+count);
                         if (payment_model.getMonth().equals(month))
+                        {
+                            eid.add(payment_model.getExpenseid());
+                        }
+                        Paymentlist_adapter paymentlist_adapter=new Paymentlist_adapter(getActivity(),eid,type);
+                        RecyclerView.LayoutManager manager=new GridLayoutManager(getActivity(),1);
+                        recyclerView.setLayoutManager(manager);
+                        recyclerView.setAdapter(paymentlist_adapter);
+                        progressBar.setVisibility(View.GONE);
+
+                        Log.e("ar","="+eid);
+
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+            else if (bid.equals("no1"))
+            {
+                final DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
+                reference.child("expense_tbl").orderByChild("uid").equalTo(uid).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        payment_model=snapshot.getValue(Payment_model.class);
+                        arr.add(payment_model);
+                        int count=arr.size();
+                        Log.e("c","="+count);
+                        if (payment_model.getMonth().equals(smonth))
                         {
                             eid.add(payment_model.getExpenseid());
                         }

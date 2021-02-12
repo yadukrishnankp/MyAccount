@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.Business_home_Activity">
+
+    <include
+        android:id="@+id/uder_toolbar"
+        layout="@layout/user_home_toolbar"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabla"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Earnings" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Expense" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/bottom_user"
+                android:layout_alignParentBottom="true"
+                android:background="@color/green"
+                android:layout_marginBottom="0dp" >
+
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="18dp"
+                    android:textColor="@color/white"
+                    android:text="ADD" />
+            </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewp"
+                android:layout_width="match_parent"
+                android:layout_height="543dp"
+                android:layout_above="@+id/bottom_user"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

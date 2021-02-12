@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myaccount.Activity.Business_Activity;
 import com.example.myaccount.Activity.Edit_Business_Activity;
+import com.example.myaccount.Activity.View_Business_Activity;
 import com.example.myaccount.Local_Database.Dbhandle;
 import com.example.myaccount.Model.Addbusiness_model;
 import com.example.myaccount.Model.Amount_model;
@@ -40,20 +41,24 @@ public class Business_list_adapter extends RecyclerView.Adapter<Business_list_ad
     String uid;
     String bid;
     float f=0;
-    String currentDate,month;
     Payment_model payment_model=new Payment_model();
+    String currentDate,month;
+    String activity;
 
-
-    public Business_list_adapter(Context context, ArrayList<Addbusiness_model> arr)
+    public Business_list_adapter(Context context, ArrayList<Addbusiness_model> arr, String activity)
     {
         Log.e("aaaa","=");
         this.arr=arr;
         this.context=context;
+        this.activity=activity;
         for (Addbusiness_model am:arr)
         {
             Log.e(getClass().getSimpleName(),"a"+am.getBusinessname());
         }
     }
+
+
+
     public void getexpense(String bid)
     {
         final DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
@@ -229,6 +234,7 @@ public class Business_list_adapter extends RecyclerView.Adapter<Business_list_ad
                Intent i=new Intent(context, Business_Activity.class);
                i.putExtra("uid",arr.get(position).getUid());
                i.putExtra("bid",arr.get(position).getBusinessid());
+               i.putExtra("activity",activity);
                context.startActivity(i);
            }
        });

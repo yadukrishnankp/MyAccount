@@ -79,8 +79,39 @@ public class User_Home_Activity extends AppCompatActivity {
         new Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-//                getexpense(uid);
-//                getearning(uid);
+                getexpense(uid);
+            }
+        },4000);
+        new  Handler(getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getearning(uid);
+            }
+        },4000);
+
+        new Handler(getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+//                dbhandle.delete_earning();
+//                dbhandle.delete_expense();
+            }
+        },4000);
+        new Handler(getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+//                dbhandle.delete_earning();
+//                dbhandle.delete_expense();
+                ern_month=dbhandle.getearn_month();
+                exp_month=dbhandle.getexp_month();
+                for (Amount_model model:ern_month)
+                {
+                    ern_month_string.add(model.getMonth());
+                }
+                for (Amount_model model:exp_month)
+                {
+                    exp_month_string.add(model.getMonth());
+                }
+                Log.e("allmonth","="+ern_month_string+"=="+exp_month_string);
             }
         },4000);
         new Handler(getMainLooper()).postDelayed(new Runnable() {
@@ -90,13 +121,11 @@ public class User_Home_Activity extends AppCompatActivity {
                 for (Amount_model am:expense)
                 {
                     expense_f.add(Float.valueOf(am.getExpense()));
-                    Log.e("expense","="+am.getExpense());
                 }
                 earning=dbhandle.getearning();
                 for (Amount_model am:earning)
                 {
                     earning_f.add(Float.valueOf(am.getEarning()));
-                    Log.e("earning","="+am.getEarning());
                 }
                 float expense_total=get_total_expense(expense_f);
                 float earning_total=get_total_earning(earning_f);
@@ -107,31 +136,7 @@ public class User_Home_Activity extends AppCompatActivity {
                 xdata[1]="expense";
             }
         },4000);
-        new Handler(getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                dbhandle.delete_earning();
-                dbhandle.delete_expense();
-            }
-        },4000);
-        new Handler(getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                dbhandle.delete_earning();
-                dbhandle.delete_expense();
-            }
-        },4000);
-        ern_month=dbhandle.getearn_month();
-        exp_month=dbhandle.getexp_month();
-        for (Amount_model model:ern_month)
-        {
-            ern_month_string.add(model.getMonth());
-        }
-        for (Amount_model model:exp_month)
-        {
-            exp_month_string.add(model.getMonth());
-        }
-        Log.e("allmonth","="+ern_month_string+"=="+exp_month_string);
+
         new Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -145,7 +150,7 @@ public class User_Home_Activity extends AppCompatActivity {
                 addDataset(pieChart);
 
             }
-        },4000);
+        },10000);
 
         full.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -297,8 +302,10 @@ public class User_Home_Activity extends AppCompatActivity {
                             Amount_model amount_model=new Amount_model();
                             String a= String.valueOf(b);
                             amount_model.setExpense(a);
-//                            Dbhandle dbhandle=new Dbhandle(getApplicationContext());
-//                            dbhandle.expense_insert(amount_model);
+                            float c=Float.parseFloat(exptxt.getText().toString())+b;
+                            exptxt.setText(Float.toString(c));
+                            Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+                            dbhandle.expense_insert(amount_model);
                             Log.e("s","="+b);
 
                         }
@@ -357,17 +364,20 @@ public class User_Home_Activity extends AppCompatActivity {
                 if (payment_model.getMonth().equals(month))
                 {
                     final DatabaseReference reference1=FirebaseDatabase.getInstance().getReference();
-                    reference1.child("Earning_tbl").orderByChild("earnid").equalTo(payment_model.getExpenseid()).addChildEventListener(new ChildEventListener() {
+                    reference1.child("Earning_tbl").orderByChild("earnid").equalTo(payment_model.getEarnid()).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                            Log.e("wrk","=");
                             payment_model=snapshot.getValue(Payment_model.class);
                             float b= Float.parseFloat(payment_model.getAmount());
                             Amount_model amount_model=new Amount_model();
                             String a= String.valueOf(b);
                             amount_model.setExpense(a);
-//                            Dbhandle dbhandle=new Dbhandle(getApplicationContext());
-//                            dbhandle.expense_insert(amount_model);
-                            Log.e("s","="+b);
+                            float c=Float.parseFloat(erntxt.getText().toString())+b;
+                            erntxt.setText(Float.toString(c));
+                            Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+                            dbhandle.expense_insert(amount_model);
+                            Log.e("sx","="+b);
 
                         }
 
@@ -417,8 +427,6 @@ public class User_Home_Activity extends AppCompatActivity {
     }
     public void getmonthexpense(String uid)
     {
-        Log.e("1","11");
-        final String[] a = {""};
         ArrayList<String>arrayList=new ArrayList<>();
         final DatabaseReference reference=FirebaseDatabase.getInstance().getReference();
         reference.child("expense_tbl").orderByChild("uid").equalTo(uid).addChildEventListener(new ChildEventListener() {
@@ -429,10 +437,7 @@ public class User_Home_Activity extends AppCompatActivity {
                 Amount_model amount_model=new Amount_model();
                 amount_model.setMonth(payment_model.getMonth());
                 dbhandle.expmonth_insert(amount_model);
-
-
-
-
+                Log.e("getmonthexpense","="+payment_model.getMonth());
 
             }
 
@@ -459,7 +464,6 @@ public class User_Home_Activity extends AppCompatActivity {
     }
     public void getmonthearning(String uid)
     {
-        Log.e("1","11");
         final String[] a = {""};
         ArrayList<String>arrayList=new ArrayList<>();
         final DatabaseReference reference=FirebaseDatabase.getInstance().getReference();
@@ -471,6 +475,8 @@ public class User_Home_Activity extends AppCompatActivity {
                 Amount_model amount_model=new Amount_model();
                 amount_model.setMonth(payment_model.getMonth());
                 dbhandle.ernmonth_insert(amount_model);
+                Log.e("getmonthearning","="+payment_model.getMonth());
+
 
 
 

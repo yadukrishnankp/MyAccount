@@ -86,7 +86,9 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewpagerbusiness"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></androidx.viewpager.widget.ViewPager>
+            android:layout_height="match_parent"
+            android:paddingBottom="?attr/actionBarSize"
+            ></androidx.viewpager.widget.ViewPager>
 
     </LinearLayout>
 

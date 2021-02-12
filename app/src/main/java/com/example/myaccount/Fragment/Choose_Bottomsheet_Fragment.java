@@ -17,12 +17,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 public class Choose_Bottomsheet_Fragment extends BottomSheetDialogFragment
 {
     Button expense,earnings;
-    String uid,bid;
+    String uid,bid,type;
 
-    public Choose_Bottomsheet_Fragment(String uid, String bid)
+    public Choose_Bottomsheet_Fragment(String uid, String bid,String type)
     {
       this.uid=uid;
       this.bid=bid;
+      this.type=type;
     }
 
     @Nullable
@@ -38,6 +39,7 @@ public class Choose_Bottomsheet_Fragment extends BottomSheetDialogFragment
                 i.putExtra("ptype","expense");
                 i.putExtra("uid",uid);
                 i.putExtra("bid",bid);
+                i.putExtra("type",type);
                 startActivity(i);
                 dismiss();
             }
@@ -49,6 +51,7 @@ public class Choose_Bottomsheet_Fragment extends BottomSheetDialogFragment
                 i.putExtra("ptype","earnings");
                 i.putExtra("uid",uid);
                 i.putExtra("bid",bid);
+                i.putExtra("type",type);
                 startActivity(i);
                 dismiss();
 

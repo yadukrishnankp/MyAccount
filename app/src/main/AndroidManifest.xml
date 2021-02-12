@@ -12,7 +12,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyAccount">
-        <activity android:name=".Activity.Business_list_Activity"></activity>
+        <activity android:name=".Activity.Business_home_Activity"></activity>
+        <activity
+            android:name=".Activity.Login_choose_Activity"
+            android:exported="true" />
+        <activity android:name=".Activity.Login_user_Activity" />
+        <activity android:name=".Activity.Monthlist_Activity" />
+        <activity android:name=".Activity.Business_list_Activity" />
         <activity android:name=".Activity.Business_Analysis_Activity" />
         <activity android:name=".Activity.Others_Activity" />
         <activity android:name=".Activity.Payment_Activity" />
