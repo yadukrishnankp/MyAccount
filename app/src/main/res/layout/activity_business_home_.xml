@@ -51,6 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textSize="18dp"
+                    android:fontFamily="@font/timesnewroman"
                     android:textColor="@color/white"
                     android:text="ADD" />
             </com.google.android.material.bottomnavigation.BottomNavigationView>

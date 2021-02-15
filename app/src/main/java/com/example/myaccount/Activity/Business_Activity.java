@@ -71,6 +71,7 @@ public class Business_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_business_2);
         exp=findViewById(R.id.exxp);
         ern=findViewById(R.id.ernn);
+        viewPager=findViewById(R.id.viewpagerbusiness);
         bottomNavigationView=findViewById(R.id.bottombusi);
         tabLayout=findViewById(R.id.tabLayoutbusinesshome);
         Dbhandle dbhandle=new Dbhandle(getApplicationContext());
@@ -81,7 +82,13 @@ public class Business_Activity extends AppCompatActivity {
         bid=getIntent().getExtras().getString("bid");
         smonth=getIntent().getExtras().getString("month");
         activity=getIntent().getExtras().getString("activity");
+        Log.e("act","="+activity);
         type="admin";
+        if (activity.equals("business_analysis_activity") || activity.equals("monthlist_activity"))
+        {
+            bottomNavigationView.setVisibility(View.GONE);
+            viewPager.setPadding(0,0,0,1);
+        }
 
 //        new Handler(getMainLooper()).postDelayed(new Runnable() {
 //            @Override
@@ -146,7 +153,6 @@ public class Business_Activity extends AppCompatActivity {
 
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        viewPager=findViewById(R.id.viewpagerbusiness);
         Business_page_adapter business_page_adapter=new Business_page_adapter(this,getSupportFragmentManager(),tabLayout.getTabCount(),uid,bid,smonth);
         viewPager.setAdapter(business_page_adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -407,15 +413,35 @@ public class Business_Activity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-//        if (activity.equals("view_business_activity"))
-//        {
-//            Dbhandle dbhandle=new Dbhandle(getApplicationContext());
-//            dbhandle.delete_earning();
-//            dbhandle.delete_expense();
-//            Intent i=new Intent(getApplicationContext(), View_Business_Activity.class);
-//            i.putExtra("uid",uid);
-//            i.putExtra("bid",bid);
+        if (activity.equals("view_business_activity"))
+        {
+            Dbhandle dbhandle = new Dbhandle(getApplicationContext());
+            dbhandle.delete_earning();
+            dbhandle.delete_expense();
+            Intent i = new Intent(getApplicationContext(), View_Business_Activity.class);
+            i.putExtra("uid", uid);
+            startActivity(i);
+        }
+        else if (activity.equals("business_analysis_activity"))
+        {
+            Dbhandle dbhandle = new Dbhandle(getApplicationContext());
+            dbhandle.delete_earning();
+            dbhandle.delete_expense();
+//            Intent i = new Intent(getApplicationContext(),Business_Analysis_Activity.class);
+//            i.putExtra("uid", uid);
 //            startActivity(i);
+            finish();
+        }
+        else if (activity.equals("monthlist_activity"))
+        {
+            Dbhandle dbhandle = new Dbhandle(getApplicationContext());
+            dbhandle.delete_earning();
+            dbhandle.delete_expense();
+            Intent i = new Intent(getApplicationContext(),Monthlist_Activity.class);
+            i.putExtra("uid", uid);
+            i.putExtra("bid",bid);
+            startActivity(i);
+        }
 //        }
 //        else if (activity.equals("business_analysis_activity"))
 //        {
@@ -427,10 +453,7 @@ public class Business_Activity extends AppCompatActivity {
 ////            startActivity(i);
 //            finish();
 //        }
-        Dbhandle dbhandle=new Dbhandle(getApplicationContext());
-        dbhandle.delete_earning();
-        dbhandle.delete_expense();
-        finish();
+
 
     }
 

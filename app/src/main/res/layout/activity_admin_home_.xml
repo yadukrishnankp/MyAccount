@@ -23,17 +23,16 @@
             android:id="@+id/adduser_ah"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:fontFamily="@font/autour_one"
+            android:fontFamily="@font/timesnewroman"
             android:text="user registeration" />
 
         <Button
             android:id="@+id/viewuser_ah"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/autour_one"
+            android:fontFamily="@font/timesnewroman"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
@@ -42,10 +41,11 @@
         <Button
             android:id="@+id/button2"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/timesnewroman"
             android:text="logout" />
 
     </LinearLayout>

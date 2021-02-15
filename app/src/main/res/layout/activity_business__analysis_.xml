@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="18dp"
-                android:fontFamily="@font/autour_one"
+                android:fontFamily="@font/timesnewroman"
                 android:textColor="@color/white"
                 android:gravity="center"
                 android:text="View By Business" />

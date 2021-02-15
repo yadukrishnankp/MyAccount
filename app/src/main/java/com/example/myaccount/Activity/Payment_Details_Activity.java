@@ -266,7 +266,7 @@ public class Payment_Details_Activity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             if (type.equals("admin"))
                             {
-                                Intent i = new Intent(getApplicationContext(), Business_Activity.class);
+                                Intent i = new Intent(getApplicationContext(),Business_Activity.class);
                                 i.putExtra("uid", uid);
                                 i.putExtra("bid",bid);
                                 startActivity(i);
@@ -283,7 +283,6 @@ public class Payment_Details_Activity extends AppCompatActivity {
 
                         } else {
                             Log.e("Msg", "Failed");
-
                         }
                     }
                 });
@@ -362,9 +361,7 @@ public class Payment_Details_Activity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i=new Intent(getApplicationContext(),Business_Activity.class);
-        i.putExtra("uid",uid);
-        i.putExtra("bid",bid);
-        startActivity(i);
+//
+        finish();
     }
 }

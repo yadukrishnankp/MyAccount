@@ -6,10 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 
 import com.example.myaccount.Adapter.Business_list_Adapter_2;
+import com.example.myaccount.Local_Database.Dbhandle;
 import com.example.myaccount.Model.Addbusiness_model;
+import com.example.myaccount.Model.Amount_model;
 import com.example.myaccount.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -70,4 +75,16 @@ public class Business_list_Activity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+
+
+                Intent i=new Intent(getApplicationContext(),User_Home_Activity.class);
+                i.putExtra("uid",uid);
+                startActivity(i);
+
+
+
+
+    }
 }

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.myaccount.Local_Database.Dbhandle;
@@ -38,7 +39,6 @@ public class User_Home_Activity extends AppCompatActivity {
 
     CardView Addbusiness,Viewbusiness,Editbusiness,Other;
     TextView exptxt,erntxt;
-    PieChart pieChart;
     TextView title,full;
     View toolbar;
     SQLiteDatabase db;
@@ -59,7 +59,6 @@ public class User_Home_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user__home_);
         Dbhandle dbhandle=new Dbhandle(getApplicationContext());
-        pieChart=findViewById(R.id.charthome);
         uid=getIntent().getExtras().getString("uid");
         currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         month=currentDate.substring(3);
@@ -81,26 +80,24 @@ public class User_Home_Activity extends AppCompatActivity {
             public void run() {
                 getexpense(uid);
             }
-        },4000);
+        },1000);
         new  Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 getearning(uid);
             }
-        },4000);
+        },1000);
 
         new Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-//                dbhandle.delete_earning();
-//                dbhandle.delete_expense();
+                dbhandle.delete_earning();
+                dbhandle.delete_expense();
             }
-        },4000);
+        },1000);
         new Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-//                dbhandle.delete_earning();
-//                dbhandle.delete_expense();
                 ern_month=dbhandle.getearn_month();
                 exp_month=dbhandle.getexp_month();
                 for (Amount_model model:ern_month)
@@ -114,43 +111,30 @@ public class User_Home_Activity extends AppCompatActivity {
                 Log.e("allmonth","="+ern_month_string+"=="+exp_month_string);
             }
         },4000);
-        new Handler(getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                expense=dbhandle.getexpense();
-                for (Amount_model am:expense)
-                {
-                    expense_f.add(Float.valueOf(am.getExpense()));
-                }
-                earning=dbhandle.getearning();
-                for (Amount_model am:earning)
-                {
-                    earning_f.add(Float.valueOf(am.getEarning()));
-                }
-                float expense_total=get_total_expense(expense_f);
-                float earning_total=get_total_earning(earning_f);
-                Log.e("total","="+expense_total+earning_total);
-                ydata[0]=earning_total;
-                ydata[1]=expense_total;
-                xdata[0]="earnings";
-                xdata[1]="expense";
-            }
-        },4000);
+//        new Handler(getMainLooper()).postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                expense=dbhandle.getexpense();
+//                for (Amount_model am:expense)
+//                {
+//                    expense_f.add(Float.valueOf(am.getExpense()));
+//                }
+//                earning=dbhandle.getearning();
+//                for (Amount_model am:earning)
+//                {
+//                    earning_f.add(Float.valueOf(am.getEarning()));
+//                }
+//                float expense_total=get_total_expense(expense_f);
+//                float earning_total=get_total_earning(earning_f);
+//                Log.e("total","="+expense_total+earning_total);
+//                ydata[0]=earning_total;
+//                ydata[1]=expense_total;
+//                xdata[0]="earnings";
+//                xdata[1]="expense";
+//            }
+//        },4000);
 
-        new Handler(getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                pieChart.setHoleRadius(25f);
-                pieChart.setTransparentCircleAlpha(0);
-                pieChart.setCenterText("My Accounts");
-                pieChart.setCenterTextSize(10);
-                pieChart.setDrawEntryLabels(true);
-                pieChart.getDescription().setText("monthly earning and expense");
-                pieChart.setEntryLabelTextSize(18f);
-                addDataset(pieChart);
 
-            }
-        },10000);
 
         full.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,27 +223,40 @@ public class User_Home_Activity extends AppCompatActivity {
 
         for (int i = 1; i < xdata.length; i++){
             xentry.add(xdata[i]);
+            PieDataSet pieDataSet=new PieDataSet(yentry,"amount");
+            pieDataSet.setSliceSpace(2);
+            pieDataSet.setValueTextSize(12);
+            pieDataSet.setValueTextColor(Color.WHITE);
+            pieDataSet.setDrawValues(true);
+            pieDataSet.setLabel(xdata[i]);
+            ArrayList<Integer> colors = new ArrayList<>();
+            colors.add(Color.RED);
+            colors.add(Color.BLUE);
+            pieDataSet.setColors(colors);
+            PieData pieData = new PieData(pieDataSet);
+            pieChart.setData(pieData);
+            pieChart.invalidate();
         }
 
-        PieDataSet pieDataSet=new PieDataSet(yentry,"amount");
-        pieDataSet.setSliceSpace(2);
-        pieDataSet.setValueTextSize(12);
-        pieDataSet.setValueTextColor(Color.WHITE);
-        ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.RED);
-        colors.add(Color.BLUE);
 
-        pieDataSet.setColors(colors);
 
         //add legend to chart
         Legend legend = pieChart.getLegend();
         legend.setForm(Legend.LegendForm.CIRCLE);
+        legend.isEnabled();
+        legend.isWordWrapEnabled();
+//        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+//        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+//        legend.setFormSize(20F);
+//        legend.setFormToTextSpace(0F);
+//        legend.setForm(Legend.LegendForm.CIRCLE);
+//        legend.setTextSize(10F);
+//        legend.setOrientation(Legend.LegendOrientation.VERTICAL);
+//        legend.isWordWrapEnabled();
 
 
         //create pie data object
-        PieData pieData = new PieData(pieDataSet);
-        pieChart.setData(pieData);
-        pieChart.invalidate();
+
 
     }
 
@@ -305,7 +302,7 @@ public class User_Home_Activity extends AppCompatActivity {
                             float c=Float.parseFloat(exptxt.getText().toString())+b;
                             exptxt.setText(Float.toString(c));
                             Dbhandle dbhandle=new Dbhandle(getApplicationContext());
-                            dbhandle.expense_insert(amount_model);
+//                            dbhandle.expense_insert(amount_model);
                             Log.e("s","="+b);
 
                         }
@@ -376,7 +373,7 @@ public class User_Home_Activity extends AppCompatActivity {
                             float c=Float.parseFloat(erntxt.getText().toString())+b;
                             erntxt.setText(Float.toString(c));
                             Dbhandle dbhandle=new Dbhandle(getApplicationContext());
-                            dbhandle.expense_insert(amount_model);
+//                            dbhandle.expense_insert(amount_model);
                             Log.e("sx","="+b);
 
                         }

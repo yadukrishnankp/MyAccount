@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -85,5 +86,12 @@ public class Monthlist_Activity extends AppCompatActivity {
             }
         }
         return arrayList;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i=new Intent(getApplicationContext(),Business_list_Activity.class);
+        i.putExtra("uid",uid);
+        startActivity(i);
     }
 }

@@ -31,12 +31,13 @@ public class Business_Analysis_Activity extends AppCompatActivity {
             setContentView(R.layout.activity_business__analysis_);
             recyclerView=findViewById(R.id.recyclemonthuser);
             bottomNavigationView=findViewById(R.id.bottombar);
-            uid=getIntent().getExtras().getString("uid");
-            activity="business_analysis_activity";
-            month= (ArrayList<String>) getIntent().getSerializableExtra("month");
-            Log.e("m","="+month);
-            month_filltered=arrdup(month);
-            Log.e("m","="+month_filltered);
+                uid=getIntent().getExtras().getString("uid");
+                activity="business_analysis_activity";
+                month= (ArrayList<String>) getIntent().getSerializableExtra("month");
+                Log.e("m","="+month);
+                month_filltered=arrdup(month);
+                Log.e("m","="+month_filltered);
+
             Months_list_Adapter months_list_adapter=new Months_list_Adapter(Business_Analysis_Activity.this,month_filltered,uid,activity);
             RecyclerView.LayoutManager manager=new GridLayoutManager(Business_Analysis_Activity.this,1);
             recyclerView.setLayoutManager(manager);
@@ -63,7 +64,10 @@ public class Business_Analysis_Activity extends AppCompatActivity {
         return arrayList;
     }
 
-
-
-
+    @Override
+    public void onBackPressed() {
+        Intent i=new Intent(getApplicationContext(),User_Home_Activity.class);
+        i.putExtra("uid",uid);
+        startActivity(i);
+    }
 }

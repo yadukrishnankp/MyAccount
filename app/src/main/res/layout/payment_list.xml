@@ -29,9 +29,10 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="20dp"
+                android:textSize="15dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/autour_one"
+                android:fontFamily="@font/timesnewroman"
                 android:text="TextView"
                 android:textColor="@color/black" />
 
@@ -45,7 +46,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
-                android:fontFamily="@font/autour_one"
+                android:fontFamily="@font/timesnewroman"
                 android:text="TextView"
                 android:textColor="@color/green"
                 android:textSize="15dp" />
@@ -59,10 +60,11 @@
                 android:layout_alignParentLeft="true"
                 android:maxLines="2"
                 android:ellipsize="end"
+                android:textSize="15dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/autour_one"
+                android:fontFamily="@font/timesnewroman"
                 android:text="TextView"
                 android:textColor="@color/black" />
 
@@ -73,21 +75,22 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"></ImageView>
+                android:layout_marginTop="33dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"></ImageView>
 
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_toStartOf="@+id/imgpay"
+                android:layout_alignParentEnd="true"
+                android:textSize="15dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="11dp"
+                android:layout_marginRight="1dp"
                 android:layout_toLeftOf="@+id/imgpay"
-                android:fontFamily="@font/autour_one"
+                android:fontFamily="@font/timesnewroman"
                 android:text="TextView"
                 android:textColor="@color/black" />
         </RelativeLayout>

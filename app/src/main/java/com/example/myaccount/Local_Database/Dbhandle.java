@@ -191,6 +191,10 @@ public class Dbhandle extends SQLiteOpenHelper {
         SQLiteDatabase db=this.getWritableDatabase();
         db.delete("earning",null,null);
         db.delete("expense",null,null);
+        db.delete("expmonth",null,null);
+        db.delete("ernmonth",null,null);
+
+
 
     }
 

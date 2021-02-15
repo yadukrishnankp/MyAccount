@@ -105,10 +105,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/timesnewroman"
+            android:text="ADD"
             android:textColor="@color/white"
-            android:fontFamily="@font/autour_one"
-            android:textSize="18dp"
-            android:text="ADD" />
+            android:textSize="18dp" />
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 

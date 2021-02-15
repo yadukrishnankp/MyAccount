@@ -35,6 +35,8 @@
                 android:layout_marginRight="10dp"
                 android:maxLines="2"
                 android:ellipsize="end"
+                android:textColor="@color/black"
+                android:fontFamily="@font/timesnewroman"
                 android:layout_toStartOf="@+id/edit"
                 android:layout_toLeftOf="@+id/edit"
                 android:text="Business"

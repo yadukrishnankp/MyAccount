@@ -47,7 +47,7 @@ public class Business_list_Adapter_2 extends RecyclerView.Adapter<Business_list_
     {
         ArrayList<String>arrayList=new ArrayList<>();
         final DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
-        reference.child("expense_tbl").orderByChild("uid").equalTo(bid).addChildEventListener(new ChildEventListener() {
+        reference.child("expense_tbl").orderByChild("bid").equalTo(bid).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 payment_model=snapshot.getValue(Payment_model.class);
@@ -86,7 +86,7 @@ public class Business_list_Adapter_2 extends RecyclerView.Adapter<Business_list_
         final String[] a = {""};
         ArrayList<String>arrayList=new ArrayList<>();
         final DatabaseReference reference=FirebaseDatabase.getInstance().getReference();
-        reference.child("Earning_tbl").orderByChild("uid").equalTo(bid).addChildEventListener(new ChildEventListener() {
+        reference.child("Earning_tbl").orderByChild("bid").equalTo(bid).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 payment_model=snapshot.getValue(Payment_model.class);
@@ -143,6 +143,8 @@ public class Business_list_Adapter_2 extends RecyclerView.Adapter<Business_list_
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getmonthearning(arr.get(position).getBusinessid());
+                getmonthexpense(arr.get(position).getBusinessid());
                 Intent i=new Intent(context, Monthlist_Activity.class);
                 i.putExtra("bid",arr.get(position).getBusinessid());
                 i.putExtra("uid",arr.get(position).getUid());
