@@ -12,6 +12,7 @@ public class Others_Activity extends AppCompatActivity {
     Button logout;
     SharedPreferences pref;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

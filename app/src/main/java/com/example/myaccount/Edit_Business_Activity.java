@@ -44,31 +44,21 @@ public class Edit_Business_Activity extends AppCompatActivity {
         bm.setVendorname(Name_ED.getEditText().getText().toString());
         bm.setPassword(Password_ED.getEditText().getText().toString());
 
-//
-//        Update_ED.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                business_Update();
-//            }
-//        });
+
+        Update_ED.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                business_Update();
+            }
+
+
+        });
     }
-//    private void business_Update() {
-//
-//        mDatabase = FirebaseDatabase.getInstance();
-//        mrefeReference = mDatabase.getReference();
-//        mrefeReference.child("New_business").child("uid").addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//
-//
-//
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                Log.d("User", databaseError.getMessage());
-//            }
-//        });
-//    }
+    private void business_Update()
+    {
+        
+        
+    }
+
 
 }
