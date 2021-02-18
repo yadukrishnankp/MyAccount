@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import com.example.myaccount.Local_Database.Dbhandle;
 import com.example.myaccount.Model.Amount_model;
 import com.example.myaccount.Model.Payment_model;
+import com.example.myaccount.Model.Signup_model;
 import com.example.myaccount.R;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -39,7 +41,7 @@ public class User_Home_Activity extends AppCompatActivity {
 
     CardView Addbusiness,Viewbusiness,Editbusiness,Other;
     TextView exptxt,erntxt;
-    TextView title,full;
+    TextView title,full,name,companyname;
     View toolbar;
     SQLiteDatabase db;
     String uid,month,currentDate;
@@ -52,6 +54,7 @@ public class User_Home_Activity extends AppCompatActivity {
     ArrayList<String>ern_month_string=new ArrayList<>();
     ArrayList<String>exp_month_string=new ArrayList<>();
     Payment_model payment_model=new Payment_model();
+    ProgressDialog  progressDialog;
     private float ydata[]=new float[2];
     private String xdata[]=new String[2];
     @Override
@@ -70,11 +73,18 @@ public class User_Home_Activity extends AppCompatActivity {
         full=findViewById(R.id.full_text);
         exptxt=findViewById(R.id.exptxt);
         erntxt=findViewById(R.id.erntxt);
+        name=findViewById(R.id.username);
+        companyname=findViewById(R.id.cname);
         toolbar=findViewById(R.id.hometoolbar_user);
         title=toolbar.findViewById(R.id.hometitle);
-        title.setText("My Accounts");
+        progressDialog =new ProgressDialog(User_Home_Activity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+        title.setText("RISBOOK");
         getmonthexpense(uid);
         getmonthearning(uid);
+        getdetails(uid);
         new Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -109,6 +119,7 @@ public class User_Home_Activity extends AppCompatActivity {
                     exp_month_string.add(model.getMonth());
                 }
                 Log.e("allmonth","="+ern_month_string+"=="+exp_month_string);
+                progressDialog.dismiss();
             }
         },4000);
 //        new Handler(getMainLooper()).postDelayed(new Runnable() {
@@ -491,6 +502,40 @@ public class User_Home_Activity extends AppCompatActivity {
 
             }
 
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void getdetails(String uid)
+    {
+        final DatabaseReference reference=FirebaseDatabase.getInstance().getReference();
+        reference.child("NewRegistration").orderByChild("id").equalTo(uid).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Signup_model signup_model=new Signup_model();
+                signup_model=snapshot.getValue(Signup_model.class);
+                name.setText(signup_model.getName());
+                companyname.setText(signup_model.getCompanyname());
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {

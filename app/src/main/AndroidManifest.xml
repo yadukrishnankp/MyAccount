@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyAccount">
-        <activity android:name=".Activity.Business_home_Activity"></activity>
+        <activity android:name=".Image_view_Activity" android:exported="true"></activity>
+        <activity android:name=".Activity.Business_home_Activity" />
         <activity
             android:name=".Activity.Login_choose_Activity"
             android:exported="true" />

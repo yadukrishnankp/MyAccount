@@ -85,4 +85,14 @@ public class Payment_model
     String description;
     String amount;
     String earnid;
+
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
+    }
+
+    String imageurl;
 }

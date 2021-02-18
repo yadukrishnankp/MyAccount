@@ -101,6 +101,8 @@ public class Login_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Popup_Message popup_message=new Popup_Message(Login_Activity.this);
                 popup_message.show_popup_window(v);
+//                Intent i=new Intent(getApplicationContext(),Login_user_Activity.class);
+//                startActivity(i);
             }
         });
     }

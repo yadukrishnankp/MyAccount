@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.myaccount.Adapter.Months_list_Adapter;
 import com.example.myaccount.Local_Database.Dbhandle;
@@ -25,6 +27,7 @@ public class Monthlist_Activity extends AppCompatActivity {
     ArrayList<String>month=new ArrayList<>();
     ArrayList<String>month_filltered=new ArrayList<>();
     RecyclerView recyclerView;
+    ProgressBar progressBar;
 
 
     @Override
@@ -33,10 +36,12 @@ public class Monthlist_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_monthlist_);
         bid=getIntent().getExtras().getString("bid");
         uid=getIntent().getExtras().getString("uid");
+        progressBar=findViewById(R.id.progressBarmonthlist);
         activity="monthlist_activity";
         new Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
+                progressBar.setVisibility(View.VISIBLE);
                 Dbhandle dbhandle=new Dbhandle(getApplicationContext());
                 ern_month=dbhandle.getearn_month();
                 exp_month=dbhandle.getexp_month();
@@ -68,9 +73,10 @@ public class Monthlist_Activity extends AppCompatActivity {
                 RecyclerView.LayoutManager manager=new GridLayoutManager(Monthlist_Activity.this,1);
                 recyclerView.setLayoutManager(manager);
                 recyclerView.setAdapter(months_list_adapter);
+                progressBar.setVisibility(View.GONE);
                 Log.e("reccle","=");
             }
-        },4000);
+        },2000);
 
 
     }
@@ -90,6 +96,9 @@ public class Monthlist_Activity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+        dbhandle.delete_er_month();
+        dbhandle.delete_ex_month();
         Intent i=new Intent(getApplicationContext(),Business_list_Activity.class);
         i.putExtra("uid",uid);
         startActivity(i);

@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    sleep(1000);
+                    sleep(3000);
                     Intent i = new Intent(getApplicationContext(), Login_Activity.class);
                     startActivity(i);
                     finish();

@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Business_home_Activity extends AppCompatActivity {
-    String uid,bid,smonth,currentDate,type;
+    String uid,bid,smonth,currentDate,type,activity;
     TabLayout tabLayout;
     ViewPager viewPager;
     BottomNavigationView bottomNavigationView;
@@ -57,7 +57,7 @@ public class Business_home_Activity extends AppCompatActivity {
         bottomNavigationView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Choose_Bottomsheet_Fragment choose_bottomsheet_fragment=new Choose_Bottomsheet_Fragment(uid,bid,type);
+                Choose_Bottomsheet_Fragment choose_bottomsheet_fragment=new Choose_Bottomsheet_Fragment(uid,bid,type,activity);
                 choose_bottomsheet_fragment.show(getSupportFragmentManager(),"bottomsheet");
             }
         });

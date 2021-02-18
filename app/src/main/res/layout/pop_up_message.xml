@@ -27,21 +27,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:textColor="@color/black"
                 android:fontFamily="@font/timesnewroman"
-                android:textSize="18dp"
                 android:paddingLeft="20dp"
-                android:text="Enter your Business name" />
+                android:text="Enter your Company name"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
 
             <EditText
                 android:id="@+id/namepop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
-                android:drawableLeft="@drawable/ic_baseline_business_24"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
-                android:hint="vendor name">
+                android:hint="company name">
             </EditText>
 
             <Button
@@ -50,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:textColor="@color/white"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:text="OK" />

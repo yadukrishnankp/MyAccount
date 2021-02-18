@@ -26,6 +26,6 @@
             android:gravity="center"
             android:text="TextView"
             android:textColor="@color/white"
-            android:textSize="18dp" />
+            android:textSize="20dp" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

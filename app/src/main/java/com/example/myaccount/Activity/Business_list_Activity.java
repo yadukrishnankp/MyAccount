@@ -77,14 +77,11 @@ public class Business_list_Activity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
-
-                Intent i=new Intent(getApplicationContext(),User_Home_Activity.class);
-                i.putExtra("uid",uid);
-                startActivity(i);
-
-
-
-
+        Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+        dbhandle.delete_ex_month();
+        dbhandle.delete_er_month();
+        Intent i=new Intent(getApplicationContext(),User_Home_Activity.class);
+        i.putExtra("uid",uid);
+        startActivity(i);
     }
 }

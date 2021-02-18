@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.example.myaccount.Local_Database.Dbhandle;
 import com.example.myaccount.Model.Payment_model;
 import com.example.myaccount.Adapter.Months_list_Adapter;
 import com.example.myaccount.R;
@@ -45,6 +46,9 @@ public class Business_Analysis_Activity extends AppCompatActivity {
             bottomNavigationView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+                    dbhandle.delete_er_month();
+                    dbhandle.delete_ex_month();
                     Intent intent=new Intent(getApplicationContext(), Business_list_Activity.class);
                     intent.putExtra("uid",uid);
                     startActivity(intent);

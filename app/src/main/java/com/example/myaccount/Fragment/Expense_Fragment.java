@@ -131,7 +131,6 @@ public class Expense_Fragment extends Fragment {
                         payment_model=snapshot.getValue(Payment_model.class);
                         arr.add(payment_model);
                         int count=arr.size();
-                        Log.e("c","="+count);
                         if (payment_model.getMonth().equals(month))
                         {
                             eid.add(payment_model.getExpenseid());
@@ -142,7 +141,6 @@ public class Expense_Fragment extends Fragment {
                         recyclerView.setAdapter(paymentlist_adapter);
                         progressBar.setVisibility(View.GONE);
 
-                        Log.e("ar","="+eid);
 
                     }
 
@@ -176,7 +174,6 @@ public class Expense_Fragment extends Fragment {
                         payment_model=snapshot.getValue(Payment_model.class);
                         arr.add(payment_model);
                         int count=arr.size();
-                        Log.e("c","="+count);
                         if (payment_model.getMonth().equals(smonth))
                         {
                             eid.add(payment_model.getExpenseid());
@@ -187,7 +184,6 @@ public class Expense_Fragment extends Fragment {
                         recyclerView.setAdapter(paymentlist_adapter);
                         progressBar.setVisibility(View.GONE);
 
-                        Log.e("ar","="+eid);
 
                     }
 
@@ -221,7 +217,6 @@ public class Expense_Fragment extends Fragment {
                         payment_model=snapshot.getValue(Payment_model.class);
                         arr.add(payment_model);
                         int count=arr.size();
-                        Log.e("c","="+count);
                         if (payment_model.getMonth().equals(month))
                         {
                             eid.add(payment_model.getExpenseid());
@@ -232,7 +227,6 @@ public class Expense_Fragment extends Fragment {
                         recyclerView.setAdapter(paymentlist_adapter);
                         progressBar.setVisibility(View.GONE);
 
-                        Log.e("ar","="+eid);
 
                     }
 

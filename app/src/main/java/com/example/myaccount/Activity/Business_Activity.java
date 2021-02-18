@@ -49,6 +49,8 @@ public class Business_Activity extends AppCompatActivity {
     ArrayList<Float>earning_f=new ArrayList<>();
     ArrayList<Amount_model>expense=new ArrayList<>();
     ArrayList<Amount_model>earning=new ArrayList<>();
+    float expense_total;
+    float earning_total;
     private float ydata[]=new float[2];
     private String xdata[]=new String[2];
     float a;
@@ -78,17 +80,25 @@ public class Business_Activity extends AppCompatActivity {
         pieChart=findViewById(R.id.piechartbusiness);
         currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         month=currentDate.substring(3);
-        uid=getIntent().getExtras().getString("uid");
-        bid=getIntent().getExtras().getString("bid");
-        smonth=getIntent().getExtras().getString("month");
-        activity=getIntent().getExtras().getString("activity");
-        Log.e("act","="+activity);
-        type="admin";
-        if (activity.equals("business_analysis_activity") || activity.equals("monthlist_activity"))
-        {
-            bottomNavigationView.setVisibility(View.GONE);
-            viewPager.setPadding(0,0,0,1);
+        try {
+            uid=getIntent().getExtras().getString("uid");
+            bid=getIntent().getExtras().getString("bid");
+            smonth=getIntent().getExtras().getString("month");
+            activity=getIntent().getExtras().getString("activity");
+            Log.e("act","="+activity);
+            type="admin";
+            if (activity.equals("business_analysis_activity") || activity.equals("monthlist_activity"))
+            {
+                bottomNavigationView.setVisibility(View.GONE);
+                viewPager.setPadding(0,0,0,1);
+            }
         }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
 
 //        new Handler(getMainLooper()).postDelayed(new Runnable() {
 //            @Override
@@ -114,8 +124,8 @@ public class Business_Activity extends AppCompatActivity {
 
               }
 
-              float expense_total=get_total_expense(expense_f);
-              float earning_total=get_total_earning(earning_f);
+              expense_total=get_total_expense(expense_f);
+              earning_total=get_total_earning(earning_f);
               Log.e("total","="+expense_total+earning_total);
 
 //
@@ -129,14 +139,14 @@ public class Business_Activity extends AppCompatActivity {
       new Handler(getMainLooper()).postDelayed(new Runnable() {
           @Override
           public void run() {
-              pieChart.setHoleRadius(25f);
+              pieChart.setHoleRadius(40f);
               pieChart.setTransparentCircleAlpha(0);
-              pieChart.setCenterText("My Accounts");
+              pieChart.setCenterText("RISBOOK");
 
               pieChart.setCenterTextSize(10);
-              pieChart.setDrawEntryLabels(true);
-              pieChart.getDescription().setText("monthly earning and expense");
-              pieChart.setEntryLabelTextSize(18f);
+              pieChart.getDescription().setText("monthly income and expense");
+              pieChart.setDrawEntryLabels(false);
+//              pieChart.setEntryLabelTextSize(18f);
 //        getexpense.execute(mytaskparams);
 //        getearning.execute(mytaskparams);
 
@@ -175,7 +185,7 @@ public class Business_Activity extends AppCompatActivity {
         bottomNavigationView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Choose_Bottomsheet_Fragment choose_bottomsheet_fragment=new Choose_Bottomsheet_Fragment(uid,bid,type);
+                Choose_Bottomsheet_Fragment choose_bottomsheet_fragment=new Choose_Bottomsheet_Fragment(uid,bid,type,activity);
                 choose_bottomsheet_fragment.show(getSupportFragmentManager(),"bottomsheet");
             }
         });
@@ -373,24 +383,29 @@ public class Business_Activity extends AppCompatActivity {
     {
         ArrayList<PieEntry>yentry=new ArrayList<>();
         ArrayList<String>xentry=new ArrayList<>();
+        yentry.add(new PieEntry(expense_total,"income"));
+        yentry.add(new PieEntry(earning_total,"expense"));
 
-        for (int i=0;i<ydata.length;i++)
-        {
-            Log.e(getClass().getSimpleName(),"dataset");
-            yentry.add(new PieEntry(ydata[i],i));
-        }
-
-        for(int i = 1; i < xdata.length; i++){
-            xentry.add(xdata[i]);
-        }
-
-        PieDataSet pieDataSet=new PieDataSet(yentry,"amount");
+//        for (int i=0;i<ydata.length;i++)
+//        {
+//            Log.e(getClass().getSimpleName(),"dataset");
+//            yentry.add(new PieEntry(ydata[i],i));
+//        }
+//
+//        for(int i = 1; i < xdata.length; i++){
+//            xentry.add(xdata[i]);
+//        }
+        ArrayList arrayList=new ArrayList<>();
+        arrayList.add("expense");
+        arrayList.add("income");
+        PieDataSet pieDataSet=new PieDataSet(yentry," ");
         pieDataSet.setSliceSpace(2);
         pieDataSet.setValueTextSize(12);
         pieDataSet.setValueTextColor(Color.WHITE);
         ArrayList<Integer> colors = new ArrayList<>();
         colors.add(Color.RED);
         colors.add(Color.BLUE);
+        PieData pieData = new PieData(pieDataSet);
 
         pieDataSet.setColors(colors);
 
@@ -400,7 +415,6 @@ public class Business_Activity extends AppCompatActivity {
 
 
         //create pie data object
-        PieData pieData = new PieData(pieDataSet);
         pieChart.setData(pieData);
         pieChart.invalidate();
     }
@@ -442,6 +456,7 @@ public class Business_Activity extends AppCompatActivity {
             i.putExtra("bid",bid);
             startActivity(i);
         }
+
 //        }
 //        else if (activity.equals("business_analysis_activity"))
 //        {

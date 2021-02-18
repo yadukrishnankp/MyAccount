@@ -2,6 +2,7 @@ package com.example.myaccount.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +18,18 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 public class Choose_Bottomsheet_Fragment extends BottomSheetDialogFragment
 {
     Button expense,earnings;
-    String uid,bid,type;
+    String uid,bid,type,activity;
 
-    public Choose_Bottomsheet_Fragment(String uid, String bid,String type)
+
+    public Choose_Bottomsheet_Fragment(String uid, String bid,String type,String activity)
     {
       this.uid=uid;
       this.bid=bid;
       this.type=type;
+      this.activity=activity;
+
+
+
     }
 
     @Nullable
@@ -40,6 +46,10 @@ public class Choose_Bottomsheet_Fragment extends BottomSheetDialogFragment
                 i.putExtra("uid",uid);
                 i.putExtra("bid",bid);
                 i.putExtra("type",type);
+                i.putExtra("activity",activity);
+                Log.e("aaa","="+activity);
+                Log.e("uid","="+uid);
+                Log.e("bid","="+bid);
                 startActivity(i);
                 dismiss();
             }
@@ -52,6 +62,7 @@ public class Choose_Bottomsheet_Fragment extends BottomSheetDialogFragment
                 i.putExtra("uid",uid);
                 i.putExtra("bid",bid);
                 i.putExtra("type",type);
+                i.putExtra("activity",activity);
                 startActivity(i);
                 dismiss();
 

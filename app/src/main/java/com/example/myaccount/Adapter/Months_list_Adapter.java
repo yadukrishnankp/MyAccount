@@ -205,6 +205,49 @@ public class Months_list_Adapter extends RecyclerView.Adapter<Months_list_Adapte
     public void onBindViewHolder(@NonNull Myrecycle_holder holder, int position) {
         holder.month.setText(month.get(position));
         Log.e("hiii","=");
+        String s=month.get(position).substring(0,2);
+        holder.year.setText(month.get(position).substring(3));
+        switch (s)
+        {
+            case "01":
+                holder.monthstr.setText("January ,");
+                break;
+            case "02":
+                holder.monthstr.setText("February ,");
+                break;
+            case "03":
+                holder.monthstr.setText("March ,");
+                break;
+            case "04":
+                holder.monthstr.setText("April ,");
+                break;
+            case "05":
+                holder.monthstr.setText("May ,");
+                break;
+            case "06":
+                holder.monthstr.setText("June ,");
+                break;
+            case "07":
+                holder.monthstr.setText("July ,");
+                break;
+            case "08":
+                holder.monthstr.setText("August ,");
+                break;
+            case "09":
+                holder.monthstr.setText("September ,");
+                break;
+            case "10":
+                holder.monthstr.setText("October ,");
+                break;
+            case "11":
+                holder.monthstr.setText("November ,");
+                break;
+            case "12":
+                holder.monthstr.setText("December ,");
+                break;
+
+
+        }
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -226,12 +269,14 @@ public class Months_list_Adapter extends RecyclerView.Adapter<Months_list_Adapte
     }
 
     public class Myrecycle_holder extends RecyclerView.ViewHolder {
-        TextView month;
+        TextView month,monthstr,year;
         CardView cardView;
         public Myrecycle_holder(@NonNull View itemView) {
             super(itemView);
             month=itemView.findViewById(R.id.monthtxt);
             cardView=itemView.findViewById(R.id.cardmonth);
+            monthstr=itemView.findViewById(R.id.monthstr);
+            year=itemView.findViewById(R.id.year);
         }
     }
 }

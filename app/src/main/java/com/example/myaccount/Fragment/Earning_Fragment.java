@@ -122,152 +122,153 @@ public class Earning_Fragment extends Fragment {
 
        @Override
        protected Void doInBackground(Mytaskparams... mytaskparams) {
-           ArrayList<String>eid=new ArrayList<>();
-           String uid=mytaskparams[0].uid;
-           String bid=mytaskparams[0].bid;
-           if (bid.equals("no"))
-           {
-               final DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
-               reference.child("Earning_tbl").orderByChild("uid").equalTo(uid).addChildEventListener(new ChildEventListener() {
-                   @Override
-                   public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                       payment_model=snapshot.getValue(Payment_model.class);
-                       arr.add(payment_model);
-                       if (arr.size()==0)
-                       {
+           try {
+               ArrayList<String>eid=new ArrayList<>();
+               String uid=mytaskparams[0].uid;
+               String bid=mytaskparams[0].bid;
+               if (bid.equals("no"))
+               {
+                   final DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
+                   reference.child("Earning_tbl").orderByChild("uid").equalTo(uid).addChildEventListener(new ChildEventListener() {
+                       @Override
+                       public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                           payment_model=snapshot.getValue(Payment_model.class);
+                           arr.add(payment_model);
+                           if (arr.size()==0)
+                           {
+                               progressBar.setVisibility(View.GONE);
+                           }
+                           int count=arr.size();
+                           if (payment_model.getMonth().equals(month))
+                           {
+                               eid.add(payment_model.getEarnid());
+                           }
+                           Paymentlist_adapter paymentlist_adapter=new Paymentlist_adapter(getActivity(),eid,type);
+                           RecyclerView.LayoutManager manager=new GridLayoutManager(getActivity(),1);
+                           recyclerView.setLayoutManager(manager);
+                           recyclerView.setAdapter(paymentlist_adapter);
                            progressBar.setVisibility(View.GONE);
+
+
                        }
-                       int count=arr.size();
-                       Log.e("c","="+count);
-                       if (payment_model.getMonth().equals(month))
-                       {
-                           eid.add(payment_model.getEarnid());
+
+                       @Override
+                       public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
                        }
-                       Paymentlist_adapter paymentlist_adapter=new Paymentlist_adapter(getActivity(),eid,type);
-                       RecyclerView.LayoutManager manager=new GridLayoutManager(getActivity(),1);
-                       recyclerView.setLayoutManager(manager);
-                       recyclerView.setAdapter(paymentlist_adapter);
-                       progressBar.setVisibility(View.GONE);
 
-                       Log.e("ar","="+eid);
+                       @Override
+                       public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-                   }
+                       }
 
-                   @Override
-                   public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                       @Override
+                       public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                   }
+                       }
 
-                   @Override
-                   public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                       @Override
+                       public void onCancelled(@NonNull DatabaseError error) {
 
-                   }
-
-                   @Override
-                   public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                   }
-
-                   @Override
-                   public void onCancelled(@NonNull DatabaseError error) {
-
-                   }
-               });
-           }
-           else if (bid.equals("no1"))
-           {
-               final DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
-               reference.child("Earning_tbl").orderByChild("uid").equalTo(uid).addChildEventListener(new ChildEventListener() {
-                   @Override
-                   public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                       payment_model=snapshot.getValue(Payment_model.class);
-                       arr.add(payment_model);
-                       if (arr.size()==0)
-                       {
+                       }
+                   });
+               }
+               else if (bid.equals("no1"))
+               {
+                   final DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
+                   reference.child("Earning_tbl").orderByChild("uid").equalTo(uid).addChildEventListener(new ChildEventListener() {
+                       @Override
+                       public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                           payment_model=snapshot.getValue(Payment_model.class);
+                           arr.add(payment_model);
+                           if (arr.size()==0)
+                           {
+                               progressBar.setVisibility(View.GONE);
+                           }
+                           int count=arr.size();
+                           if (payment_model.getMonth().equals(smonth))
+                           {
+                               eid.add(payment_model.getEarnid());
+                           }
+                           Paymentlist_adapter paymentlist_adapter=new Paymentlist_adapter(getActivity(),eid,type);
+                           RecyclerView.LayoutManager manager=new GridLayoutManager(getActivity(),1);
+                           recyclerView.setLayoutManager(manager);
+                           recyclerView.setAdapter(paymentlist_adapter);
                            progressBar.setVisibility(View.GONE);
+
+
                        }
-                       int count=arr.size();
-                       Log.e("c","="+count);
-                       if (payment_model.getMonth().equals(smonth))
-                       {
-                           eid.add(payment_model.getEarnid());
+
+                       @Override
+                       public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
                        }
-                       Paymentlist_adapter paymentlist_adapter=new Paymentlist_adapter(getActivity(),eid,type);
-                       RecyclerView.LayoutManager manager=new GridLayoutManager(getActivity(),1);
-                       recyclerView.setLayoutManager(manager);
-                       recyclerView.setAdapter(paymentlist_adapter);
-                       progressBar.setVisibility(View.GONE);
 
-                       Log.e("ar","="+eid);
+                       @Override
+                       public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-                   }
+                       }
 
-                   @Override
-                   public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                       @Override
+                       public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                   }
+                       }
 
-                   @Override
-                   public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                       @Override
+                       public void onCancelled(@NonNull DatabaseError error) {
 
-                   }
+                       }
+                   });
+               }
+               else
+               {
+                   final DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
+                   reference.child("Earning_tbl").orderByChild("bid").equalTo(bid).addChildEventListener(new ChildEventListener() {
+                       @Override
+                       public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                           payment_model=snapshot.getValue(Payment_model.class);
+                           arr.add(payment_model);
+                           int count=arr.size();
+                           if (payment_model.getMonth().equals(month))
+                           {
+                               eid.add(payment_model.getEarnid());
+                           }
+                           Paymentlist_adapter paymentlist_adapter=new Paymentlist_adapter(getActivity(),eid,type);
+                           RecyclerView.LayoutManager manager=new GridLayoutManager(getActivity(),1);
+                           recyclerView.setLayoutManager(manager);
+                           recyclerView.setAdapter(paymentlist_adapter);
+                           progressBar.setVisibility(View.GONE);
 
-                   @Override
-                   public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                   }
+                       }
 
-                   @Override
-                   public void onCancelled(@NonNull DatabaseError error) {
+                       @Override
+                       public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                   }
-               });
+                       }
+
+                       @Override
+                       public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                       }
+
+                       @Override
+                       public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                       }
+
+                       @Override
+                       public void onCancelled(@NonNull DatabaseError error) {
+
+                       }
+                   });
+               }
            }
-           else
+           catch (Exception e)
            {
-               final DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
-               reference.child("Earning_tbl").orderByChild("bid").equalTo(bid).addChildEventListener(new ChildEventListener() {
-                   @Override
-                   public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                       payment_model=snapshot.getValue(Payment_model.class);
-                       arr.add(payment_model);
-                       int count=arr.size();
-                       Log.e("c","="+count);
-                       if (payment_model.getMonth().equals(month))
-                       {
-                           eid.add(payment_model.getEarnid());
-                       }
-                       Paymentlist_adapter paymentlist_adapter=new Paymentlist_adapter(getActivity(),eid,type);
-                       RecyclerView.LayoutManager manager=new GridLayoutManager(getActivity(),1);
-                       recyclerView.setLayoutManager(manager);
-                       recyclerView.setAdapter(paymentlist_adapter);
-                       progressBar.setVisibility(View.GONE);
-
-                       Log.e("ar","="+eid);
-
-                   }
-
-                   @Override
-                   public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                   }
-
-                   @Override
-                   public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                   }
-
-                   @Override
-                   public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                   }
-
-                   @Override
-                   public void onCancelled(@NonNull DatabaseError error) {
-
-                   }
-               });
+               e.printStackTrace();
            }
+
 
            return null;
        }

@@ -223,7 +223,6 @@ public class Business_list_adapter extends RecyclerView.Adapter<Business_list_ad
     public void onBindViewHolder(@NonNull Myrecycleview holder, int position) {
        Addbusiness_model am=arr.get(position);
        holder.business_name.setText(arr.get(position).getBusinessname());
-        holder.t.setText(Float.toString(f));
        holder.cardView.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -261,7 +260,7 @@ public class Business_list_adapter extends RecyclerView.Adapter<Business_list_ad
 
 
     public class Myrecycleview extends RecyclerView.ViewHolder {
-        TextView business_name,t;
+        TextView business_name;
         CardView cardView;
         ImageView edit;
         public Myrecycleview(@NonNull View itemView) {
@@ -269,7 +268,6 @@ public class Business_list_adapter extends RecyclerView.Adapter<Business_list_ad
             business_name=itemView.findViewById(R.id.bnamelist);
             cardView=itemView.findViewById(R.id.businesslisthome);
             edit=itemView.findViewById(R.id.edit);
-            t=itemView.findViewById(R.id.textView14);
 
 
 

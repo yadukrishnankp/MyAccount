@@ -186,6 +186,16 @@ public class Dbhandle extends SQLiteOpenHelper {
         Log.e("delete expense","=");
 
     }
+    public  void delete_ex_month()
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        db.execSQL("delete from expmonth");
+    }
+    public void delete_er_month()
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        db.execSQL("delete from ernmonth");
+    }
     public void removeall()
     {
         SQLiteDatabase db=this.getWritableDatabase();

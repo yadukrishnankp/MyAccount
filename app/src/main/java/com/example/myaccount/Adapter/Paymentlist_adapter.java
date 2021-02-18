@@ -1,6 +1,7 @@
 package com.example.myaccount.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.myaccount.Image_view_Activity;
 import com.example.myaccount.Model.Payment_model;
 import com.example.myaccount.R;
 import com.google.firebase.database.ChildEventListener;
@@ -65,6 +67,15 @@ public class Paymentlist_adapter extends RecyclerView.Adapter<Paymentlist_adapte
                     holder.description.setText(model.getDescription());
                     Glide.with(holder.itemView).
                             load(R.drawable.up_icon).fitCenter().into(holder.payicon);
+                    holder.bill.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i=new Intent(context, Image_view_Activity.class);
+                            i.putExtra("eid",eid);
+                            i.putExtra("type",type);
+                            context.startActivity(i);
+                        }
+                    });
                 }
 
                 @Override
@@ -103,6 +114,15 @@ public class Paymentlist_adapter extends RecyclerView.Adapter<Paymentlist_adapte
                     holder.description.setText(model.getDescription());
                     Glide.with(holder.itemView).
                             load(R.drawable.down_icon).fitCenter().into(holder.payicon);
+                    holder.bill.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i=new Intent(context, Image_view_Activity.class);
+                            i.putExtra("eid",eid);
+                            i.putExtra("type",type);
+                            context.startActivity(i);
+                        }
+                    });
                 }
 
                 @Override
@@ -136,7 +156,7 @@ public class Paymentlist_adapter extends RecyclerView.Adapter<Paymentlist_adapte
     }
 
     public class Myrecycleholder extends RecyclerView.ViewHolder {
-        TextView date,amount,description,time;
+        TextView date,amount,description,time,bill;
         ImageView payicon;
         public Myrecycleholder(@NonNull View itemView) {
             super(itemView);
@@ -145,6 +165,7 @@ public class Paymentlist_adapter extends RecyclerView.Adapter<Paymentlist_adapte
             description=itemView.findViewById(R.id.descpay);
             payicon=itemView.findViewById(R.id.imgpay);
             time=itemView.findViewById(R.id.time);
+            bill=itemView.findViewById(R.id.biltxt);
         }
     }
 }
