@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -15,17 +16,22 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myaccount.Local_Database.Dbhandle;
 import com.example.myaccount.Model.Amount_model;
 import com.example.myaccount.Model.Payment_model;
 import com.example.myaccount.Model.Signup_model;
+import com.example.myaccount.Network.NetworkReceiver;
+import com.example.myaccount.Network.NetworkState;
 import com.example.myaccount.R;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,6 +48,7 @@ public class User_Home_Activity extends AppCompatActivity {
     CardView Addbusiness,Viewbusiness,Editbusiness,Other;
     TextView exptxt,erntxt;
     TextView title,full,name,companyname;
+    private boolean doubleBackToExitPressedOnce = false;
     View toolbar;
     SQLiteDatabase db;
     String uid,month,currentDate;
@@ -77,11 +84,27 @@ public class User_Home_Activity extends AppCompatActivity {
         companyname=findViewById(R.id.cname);
         toolbar=findViewById(R.id.hometoolbar_user);
         title=toolbar.findViewById(R.id.hometitle);
+        title.setText("RISBOOK");
+        NetworkState state=new NetworkState();
+        if (state.getConnectivityStatusString(getApplicationContext()).equals("Not connected to Internet"))
+        {
+            Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_LONG)
+                    .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
+                    .setAction("Retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                            startActivity(getIntent());
+                        }
+                    })
+                    .show();
+        }
+        else {
+            Log.e("net","="+state.getConnectivityStatusString(getApplicationContext()));
         progressDialog =new ProgressDialog(User_Home_Activity.this);
         progressDialog.setMessage("Loading...");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
-        title.setText("RISBOOK");
         getmonthexpense(uid);
         getmonthearning(uid);
         getdetails(uid);
@@ -147,14 +170,7 @@ public class User_Home_Activity extends AppCompatActivity {
 
 
 
-        full.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(), Full_Payement_Details_Activity.class);
-                intent.putExtra("uid",uid);
-                startActivity(intent);
-            }
-        });
+
 
 //        pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
 //            @Override
@@ -180,43 +196,146 @@ public class User_Home_Activity extends AppCompatActivity {
 //            }
 //        });
 
+
+        }
         Addbusiness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(getApplicationContext(), Addbusiness_Activity.class);
-                i.putExtra("uid",uid);
-                startActivity(i);
+                if (state.getConnectivityStatusString(getApplicationContext()).equals("Not connected to Internet"))
+                {
+                    Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_LONG)
+                            .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
+                            .setAction("Retry", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent i=new Intent(getApplicationContext(), Addbusiness_Activity.class);
+                                    i.putExtra("uid",uid);
+                                    startActivity(i);
+                                }
+                            })
+                            .show();
+                }
+                else {
+                    Intent i=new Intent(getApplicationContext(), Addbusiness_Activity.class);
+                    i.putExtra("uid",uid);
+                    startActivity(i);
+                }
+
             }
         });
 
         Viewbusiness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(getApplicationContext(), View_Business_Activity.class);
-                i.putExtra("uid",uid);
-                startActivity(i);
+                if (state.getConnectivityStatusString(getApplicationContext()).equals("Not connected to Internet"))
+                {
+                    Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_LONG)
+                            .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
+                            .setAction("Retry", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent i=new Intent(getApplicationContext(), View_Business_Activity.class);
+                                    i.putExtra("uid",uid);
+                                    startActivity(i);
+                                }
+                            })
+                            .show();
+                }
+                else {
+                    Intent i=new Intent(getApplicationContext(), View_Business_Activity.class);
+                    i.putExtra("uid",uid);
+                    startActivity(i);
+                }
+
             }
         });
         Editbusiness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               ArrayList<String>month=new ArrayList<>();
-               month.addAll(exp_month_string);
-               month.addAll(ern_month_string);
-                Intent i=new Intent(getApplicationContext(), Business_Analysis_Activity.class);
-                i.putExtra("uid",uid);
-                i.putExtra("month",month);
-                startActivity(i);
+                if (state.getConnectivityStatusString(getApplicationContext()).equals("Not connected to Internet"))
+                {
+                    Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_LONG)
+                            .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
+                            .setAction("Retry", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    ArrayList<String>month=new ArrayList<>();
+                                    month.addAll(exp_month_string);
+                                    month.addAll(ern_month_string);
+                                    Intent i=new Intent(getApplicationContext(), Business_Analysis_Activity.class);
+                                    i.putExtra("uid",uid);
+                                    i.putExtra("month",month);
+                                    startActivity(i);
+                                }
+                            })
+                            .show();
+                }
+                else {
+                    ArrayList<String>month=new ArrayList<>();
+                    month.addAll(exp_month_string);
+                    month.addAll(ern_month_string);
+                    Intent i=new Intent(getApplicationContext(), Business_Analysis_Activity.class);
+                    i.putExtra("uid",uid);
+                    i.putExtra("month",month);
+                    startActivity(i);
+                }
+
             }
         });
         Other.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(getApplicationContext(), Others_Activity.class);
-                i.putExtra("uid",uid);
-                startActivity(i);
+                if (state.getConnectivityStatusString(getApplicationContext()).equals("Not connected to Internet"))
+                {
+                    Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_LONG)
+                            .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
+                            .setAction("Retry", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent i=new Intent(getApplicationContext(), Others_Activity.class);
+                                    i.putExtra("uid",uid);
+                                    startActivity(i);
+                                }
+                            })
+                            .show();
+                }
+                else
+                {
+                    Intent i=new Intent(getApplicationContext(), Others_Activity.class);
+                    i.putExtra("uid",uid);
+                    startActivity(i);
+                }
+
             }
         });
+        full.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (state.getConnectivityStatusString(getApplicationContext()).equals("Not connected to Internet"))
+                {
+                    Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_LONG)
+                            .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
+                            .setAction("Retry", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent i=new Intent(getApplicationContext(), Others_Activity.class);
+                                    i.putExtra("uid",uid);
+                                    startActivity(i);
+                                }
+                            })
+                            .show();
+                }
+                else
+                {
+                    Intent intent=new Intent(getApplicationContext(), Full_Payement_Details_Activity.class);
+                    intent.putExtra("uid",uid);
+                    startActivity(intent);
+                }
+
+            }
+        });
+
 
     }
 
@@ -549,4 +668,31 @@ public class User_Home_Activity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            //super.onBackPressed();
+            Intent a = new Intent(Intent.ACTION_MAIN);
+            a.addCategory(Intent.CATEGORY_HOME);
+            a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(a);
+            Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+            dbhandle.removeall();
+            Log.e("a","=");
+            //return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        Snackbar.make(findViewById(android.R.id.content),"Please click BACK again to exit", BaseTransientBottomBar.LENGTH_SHORT)
+                .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
+                .show();
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+                Log.e("b","=");
+            }
+
+        }, 2000);
+    }
 }

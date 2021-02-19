@@ -56,6 +56,12 @@ public class Registration_Activity extends AppCompatActivity {
         email=findViewById(R.id.email_ra);
         password=findViewById(R.id.password_ra);
         Submit=findViewById(R.id.submit_ra);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override

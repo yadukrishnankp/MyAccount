@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -47,6 +48,13 @@ public class All_userview_Activity extends AppCompatActivity {
         progress_user=findViewById(R.id.progressuser);
         user_lits=findViewById(R.id.recycleruserlist);
         allusers.execute();
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(getApplicationContext(),Admin_home_Activity.class);
+                startActivity(i);
+            }
+        });
 
 
 

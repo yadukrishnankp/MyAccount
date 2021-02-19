@@ -3,7 +3,11 @@ package com.example.myaccount.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.myaccount.Adapter.Business_page_adapter;
 import com.example.myaccount.R;
@@ -17,6 +21,9 @@ public class Full_Payement_Details_Activity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
     String uid,bid,smonth,currentDate;
+    View  toolbar;
+    ImageView back;
+    TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +31,10 @@ public class Full_Payement_Details_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_full__payement__details_);
         tabLayout=findViewById(R.id.tabloutfull);
         viewPager=findViewById(R.id.viewpagerfull);
+        toolbar=findViewById(R.id.fulltoolbar);
+        back=toolbar.findViewById(R.id.backimg);
+        title=toolbar.findViewById(R.id.titletext);
+        title.setText("Monthly Payments");
         uid=getIntent().getExtras().getString("uid");
         bid="no";
         currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
@@ -46,6 +57,14 @@ public class Full_Payement_Details_Activity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),User_Home_Activity.class);
+                intent.putExtra("uid",uid);
+                startActivity(intent);
             }
         });
     }

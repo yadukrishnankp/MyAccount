@@ -203,6 +203,7 @@ public class Dbhandle extends SQLiteOpenHelper {
         db.delete("expense",null,null);
         db.delete("expmonth",null,null);
         db.delete("ernmonth",null,null);
+        Log.e("deleted","=");
 
 
 

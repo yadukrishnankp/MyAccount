@@ -5,11 +5,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.icu.text.CaseMap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.myaccount.Adapter.Months_list_Adapter;
 import com.example.myaccount.Local_Database.Dbhandle;
@@ -28,6 +31,9 @@ public class Monthlist_Activity extends AppCompatActivity {
     ArrayList<String>month_filltered=new ArrayList<>();
     RecyclerView recyclerView;
     ProgressBar progressBar;
+    View toolbar;
+    ImageView back;
+    TextView title;
 
 
     @Override
@@ -37,6 +43,21 @@ public class Monthlist_Activity extends AppCompatActivity {
         bid=getIntent().getExtras().getString("bid");
         uid=getIntent().getExtras().getString("uid");
         progressBar=findViewById(R.id.progressBarmonthlist);
+        toolbar=findViewById(R.id.monthlistoolbar);
+        back=toolbar.findViewById(R.id.backimg);
+        title=toolbar.findViewById(R.id.titletext);
+        title.setText("All Months");
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+                dbhandle.delete_er_month();
+                dbhandle.delete_ex_month();
+                Intent i=new Intent(getApplicationContext(),Business_list_Activity.class);
+                i.putExtra("uid",uid);
+                startActivity(i);
+            }
+        });
         activity="monthlist_activity";
         new Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override

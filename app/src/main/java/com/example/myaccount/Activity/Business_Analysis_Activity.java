@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.myaccount.Local_Database.Dbhandle;
 import com.example.myaccount.Model.Payment_model;
@@ -24,7 +26,10 @@ public class Business_Analysis_Activity extends AppCompatActivity {
     ArrayList<String>month=new ArrayList<>();
     ArrayList<String>month_filltered=new ArrayList<>();
     BottomNavigationView bottomNavigationView;
+    View toolbar;
     String activity;
+    ImageView back;
+    TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,10 @@ public class Business_Analysis_Activity extends AppCompatActivity {
             setContentView(R.layout.activity_business__analysis_);
             recyclerView=findViewById(R.id.recyclemonthuser);
             bottomNavigationView=findViewById(R.id.bottombar);
+            toolbar=findViewById(R.id.toolbaranalysis);
+            back=toolbar.findViewById(R.id.backimg);
+            title=toolbar.findViewById(R.id.titletext);
+            title.setText("Analytics");
                 uid=getIntent().getExtras().getString("uid");
                 activity="business_analysis_activity";
                 month= (ArrayList<String>) getIntent().getSerializableExtra("month");
@@ -52,6 +61,14 @@ public class Business_Analysis_Activity extends AppCompatActivity {
                     Intent intent=new Intent(getApplicationContext(), Business_list_Activity.class);
                     intent.putExtra("uid",uid);
                     startActivity(intent);
+                }
+            });
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i=new Intent(getApplicationContext(),User_Home_Activity.class);
+                    i.putExtra("uid",uid);
+                    startActivity(i);
                 }
             });
     }

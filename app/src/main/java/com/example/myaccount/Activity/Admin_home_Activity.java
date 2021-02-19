@@ -25,12 +25,7 @@ public class Admin_home_Activity extends AppCompatActivity {
         viewuser=findViewById(R.id.viewuser_ah);
         pref = getSharedPreferences("NewRegistration", MODE_PRIVATE);
         log=findViewById(R.id.button2);
-        log.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
         addnewuser.setOnClickListener(new View.OnClickListener() {
             @Override

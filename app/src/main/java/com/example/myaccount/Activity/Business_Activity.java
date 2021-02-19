@@ -3,8 +3,10 @@ package com.example.myaccount.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -45,6 +47,7 @@ public class Business_Activity extends AppCompatActivity {
     PieChart pieChart;
     TextView exp,ern;
     String type;
+    Toolbar toolbar;
     ArrayList<Float>expense_f=new ArrayList<>();
     ArrayList<Float>earning_f=new ArrayList<>();
     ArrayList<Amount_model>expense=new ArrayList<>();
@@ -57,8 +60,6 @@ public class Business_Activity extends AppCompatActivity {
     float totalex=0;
     float totalen=0;
     Payment_model payment_model=new Payment_model();
-//    getexpense getexpense=new getexpense();
-//    getearning getearning=new getearning();
     ArrayList<Float>e=new ArrayList<>();
     public Business_Activity()
     {
@@ -67,6 +68,7 @@ public class Business_Activity extends AppCompatActivity {
 
 
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +78,11 @@ public class Business_Activity extends AppCompatActivity {
         viewPager=findViewById(R.id.viewpagerbusiness);
         bottomNavigationView=findViewById(R.id.bottombusi);
         tabLayout=findViewById(R.id.tabLayoutbusinesshome);
+        toolbar=findViewById(R.id.toolbarb);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         Dbhandle dbhandle=new Dbhandle(getApplicationContext());
         pieChart=findViewById(R.id.piechartbusiness);
         currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
@@ -98,15 +105,6 @@ public class Business_Activity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-
-//        new Handler(getMainLooper()).postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                getexpense(bid);
-//                getearning(bid);
-//            }
-//        },2000);
       new Handler(getMainLooper()).postDelayed(new Runnable() {
           @Override
           public void run() {
@@ -146,20 +144,12 @@ public class Business_Activity extends AppCompatActivity {
               pieChart.setCenterTextSize(10);
               pieChart.getDescription().setText("monthly income and expense");
               pieChart.setDrawEntryLabels(false);
-//              pieChart.setEntryLabelTextSize(18f);
-//        getexpense.execute(mytaskparams);
-//        getearning.execute(mytaskparams);
+
 
               AddDataset(pieChart);
           }
       },2000);
 
-
-//        dbhandle.removeall();
-
-
-//        Log.e(getClass().getSimpleName(),"uid="+uid);
-//        Log.e(getClass().getSimpleName(),"bid="+bid);
 
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -192,6 +182,41 @@ public class Business_Activity extends AppCompatActivity {
 
         AddDataset(pieChart);
 
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (activity.equals("view_business_activity"))
+                {
+                    Dbhandle dbhandle = new Dbhandle(getApplicationContext());
+                    dbhandle.delete_earning();
+                    dbhandle.delete_expense();
+                    Intent i = new Intent(getApplicationContext(), View_Business_Activity.class);
+                    i.putExtra("uid", uid);
+                    startActivity(i);
+                }
+                else if (activity.equals("business_analysis_activity"))
+                {
+                    Dbhandle dbhandle = new Dbhandle(getApplicationContext());
+                    dbhandle.delete_earning();
+                    dbhandle.delete_expense();
+//            Intent i = new Intent(getApplicationContext(),Business_Analysis_Activity.class);
+//            i.putExtra("uid", uid);
+//            startActivity(i);
+                    finish();
+                }
+                else if (activity.equals("monthlist_activity"))
+                {
+                    Dbhandle dbhandle = new Dbhandle(getApplicationContext());
+                    dbhandle.delete_earning();
+                    dbhandle.delete_expense();
+                    Intent i = new Intent(getApplicationContext(),Monthlist_Activity.class);
+                    i.putExtra("uid", uid);
+                    i.putExtra("bid",bid);
+                    startActivity(i);
+                }
+            }
+        });
 
     }
 
@@ -368,16 +393,7 @@ public class Business_Activity extends AppCompatActivity {
     }
 
 
-//    public float gettotal(ArrayList<Float>arr)
-//    {
-//        float total=0;
-//        for (Float f:arr)
-//        {
-//            total += f;
-//        }
-//        a=total;
-//        return a;
-//    }
+
 
     private void AddDataset(PieChart pieChart)
     {

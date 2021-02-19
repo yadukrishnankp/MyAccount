@@ -11,7 +11,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.myaccount.Adapter.Business_list_adapter;
 import com.example.myaccount.Model.Addbusiness_model;
@@ -28,6 +30,9 @@ public class View_Business_Activity extends AppCompatActivity {
     RecyclerView recyclerView;
     ProgressBar progressBar;
     String uid,activity;
+    View toolbar;
+    ImageView img;
+    TextView title;
     viewbusiness viewbusiness=new viewbusiness();
     ArrayList<Addbusiness_model>arr=new ArrayList<>();
     Addbusiness_model addbusiness_model=new Addbusiness_model();
@@ -40,6 +45,18 @@ public class View_Business_Activity extends AppCompatActivity {
         activity="view_business_activity";
         recyclerView=findViewById(R.id.buislist);
         progressBar=findViewById(R.id.progressbusiloist);
+        toolbar=findViewById(R.id.toolabrbusilist);
+        img=toolbar.findViewById(R.id.backimg);
+        title=toolbar.findViewById(R.id.titletext);
+        title.setText("All Business");
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(getApplicationContext(), User_Home_Activity.class);
+                i.putExtra("uid",uid);
+                startActivity(i);
+            }
+        });
         viewbusiness.execute(uid);
     }
     private  class viewbusiness extends AsyncTask<String,String,String>

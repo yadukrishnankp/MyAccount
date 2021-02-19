@@ -16,6 +16,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myaccount.R;
@@ -44,6 +45,9 @@ public class Payment_Details_Activity extends AppCompatActivity {
     ImageView upload;
     String currentDate, currentTime, month;
     Button insert;
+    View toolbar;
+    ImageView back;
+    TextView title;
 
     String Storage_Path = "Payment_Details";
     String Database_Path = "Payment_Details";
@@ -77,6 +81,23 @@ public class Payment_Details_Activity extends AppCompatActivity {
         description = findViewById(R.id.description_PD);
         upload = findViewById(R.id.imageview_PD);
         insert = findViewById(R.id.submit_PD);
+        toolbar=findViewById(R.id.pdtoolbar);
+        back=toolbar.findViewById(R.id.backimg);
+        title=toolbar.findViewById(R.id.titletext);
+        if (ptype.equals("earnings"))
+        {
+            title.setText("Income");
+        }
+        else if (ptype.equals("expense"))
+        {
+            title.setText("Expense");
+        }
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         storageReference = FirebaseStorage.getInstance().getReference();
         storage = FirebaseStorage.getInstance();
