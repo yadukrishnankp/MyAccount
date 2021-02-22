@@ -2,6 +2,7 @@ package com.example.myaccount.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -19,11 +20,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myaccount.Network.NetworkState;
 import com.example.myaccount.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -76,7 +80,7 @@ public class Payment_Details_Activity extends AppCompatActivity {
         Log.e(getClass().getSimpleName(), "uid=" + uid);
         Log.e(getClass().getSimpleName(), "bid=" + bid);
         Log.e(getClass().getSimpleName(), "activity=" + activity);
-
+        NetworkState state=new NetworkState();
         amount = findViewById(R.id.amount_Pd);
         description = findViewById(R.id.description_PD);
         upload = findViewById(R.id.imageview_PD);
@@ -118,7 +122,19 @@ public class Payment_Details_Activity extends AppCompatActivity {
         insert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UploadImageFileToFirebaseStorage();
+                if (validation()==true)
+                {
+                    if (state.getConnectivityStatusString(getApplicationContext()).equals("Not connected to Internet"))
+                    {
+                        Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_INDEFINITE)
+                                .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
+                                .show();
+                    }
+                    else
+                    {
+                        UploadImageFileToFirebaseStorage();
+                    }
+                }
             }
         });
     }
@@ -196,7 +212,97 @@ public class Payment_Details_Activity extends AppCompatActivity {
                         }
                     });
         } else {
-            Toast.makeText(Payment_Details_Activity.this, "Please Select Image or Add Image Name", Toast.LENGTH_LONG).show();
+            if (ptype.equals("earnings")) {
+                    currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                    currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+                    month = currentDate.substring(3);
+                    FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+                    mrefeReference = mDatabase.getReference("Earning_tbl");
+                    String newKey = mrefeReference.push().getKey();
+                    DatabaseReference refs = FirebaseDatabase.getInstance().getReference("Earning_tbl").child(newKey);
+                    HashMap<String, String> hashMap = new HashMap<>();
+                    hashMap.put("earnid", newKey);
+                    hashMap.put("amount", amount.getText().toString());
+                    hashMap.put("description", description.getText().toString());
+                    hashMap.put("imageurl",null);
+                    hashMap.put("uid", uid);
+                    hashMap.put("bid", bid);
+                    hashMap.put("date", currentDate);
+                    hashMap.put("time", currentTime);
+                    hashMap.put("month", month);
+                    refs.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                if (type.equals("admin")) {
+                                    Intent i = new Intent(getApplicationContext(), Business_Activity.class);
+                                    i.putExtra("uid", uid);
+                                    i.putExtra("bid", bid);
+                                    i.putExtra("activity", activity);
+                                    Log.e("asd", "=" + activity);
+                                    startActivity(i);
+                                    Log.e("Msg", "Success");
+                                } else if (type.equals("user")) {
+                                    Intent i = new Intent(getApplicationContext(), Business_home_Activity.class);
+                                    i.putExtra("uid", uid);
+                                    i.putExtra("bid", bid);
+                                    startActivity(i);
+                                    Log.e("Msg", "Success");
+                                }
+
+                            } else {
+                                Log.e("Msg", "Failed");
+                            }
+                        }
+                    });
+
+
+            } else if (ptype.equals("expense")) {
+                    currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                    currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+                    month = currentDate.substring(3);
+                    FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+                    mrefeReference = mDatabase.getReference("expense_tbl");
+                    String newKey = mrefeReference.push().getKey();
+                    DatabaseReference refs = FirebaseDatabase.getInstance().getReference("expense_tbl").child(newKey);
+                    HashMap<String, String> hashMap = new HashMap<>();
+                    hashMap.put("expenseid", newKey);
+                    hashMap.put("amount", amount.getText().toString());
+                    hashMap.put("description", description.getText().toString());
+                    hashMap.put("imageurl",null);
+                    hashMap.put("uid", uid);
+                    hashMap.put("bid", bid);
+                    hashMap.put("date", currentDate);
+                    hashMap.put("time", currentTime);
+                    hashMap.put("month", month);
+                    refs.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                if (type.equals("admin")) {
+                                    Intent i = new Intent(getApplicationContext(), Business_Activity.class);
+                                    i.putExtra("uid", uid);
+                                    i.putExtra("bid", bid);
+                                    i.putExtra("activity", activity);
+                                    startActivity(i);
+                                    Log.e("Msg", "Success");
+                                } else if (type.equals("user")) {
+                                    Intent i = new Intent(getApplicationContext(), Business_home_Activity.class);
+                                    i.putExtra("uid", uid);
+                                    i.putExtra("bid", bid);
+                                    startActivity(i);
+                                    Log.e("Msg", "Success");
+                                }
+
+                            } else {
+                                Log.e("Msg", "Failed");
+
+                            }
+                        }
+                    });
+
+
+            }
         }
     }
 
@@ -217,9 +323,10 @@ public class Payment_Details_Activity extends AppCompatActivity {
     }
 
     private void insert(String imageUploadId, String url) {
+        Log.e("uu",url);
 
         if (ptype.equals("earnings")) {
-            if (validation() == true) {
+
                 currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
                 currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
                 month = currentDate.substring(3);
@@ -263,9 +370,9 @@ public class Payment_Details_Activity extends AppCompatActivity {
                     }
                 });
 
-            }
+
         } else if (ptype.equals("expense")) {
-            if (validation() == true) {
+
                 currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
                 currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
                 month = currentDate.substring(3);
@@ -309,7 +416,7 @@ public class Payment_Details_Activity extends AppCompatActivity {
                     }
                 });
 
-            }
+
         }
     }
 

@@ -102,6 +102,7 @@ public class Expense_Fragment extends Fragment {
         currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         month=currentDate.substring(3);
         getlist.execute(mytaskparams);
+        progressBar.setVisibility(View.GONE);
         return view;
     }
 
@@ -139,7 +140,6 @@ public class Expense_Fragment extends Fragment {
                         RecyclerView.LayoutManager manager=new GridLayoutManager(getActivity(),1);
                         recyclerView.setLayoutManager(manager);
                         recyclerView.setAdapter(paymentlist_adapter);
-                        progressBar.setVisibility(View.GONE);
 
 
                     }

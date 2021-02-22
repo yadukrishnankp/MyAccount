@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +21,10 @@ import android.widget.Toast;
 
 import com.example.myaccount.Fragment.Popup_Message;
 import com.example.myaccount.Model.Signup_model;
+import com.example.myaccount.Network.NetworkState;
 import com.example.myaccount.R;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -78,8 +82,15 @@ public class Login_Activity extends AppCompatActivity {
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (isConnected()) {
+                NetworkState state=new NetworkState();
+                if (state.getConnectivityStatusString(getApplicationContext()).equals("Not connected to Internet"))
+                {
+                    Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_LONG)
+                            .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
+                            .show();
+                }
+                else
+                {
                     String mail = UserName.getText().toString();
                     String pass = Password.getText().toString();
                     if (mail.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(mail).matches()) {
@@ -89,9 +100,9 @@ public class Login_Activity extends AppCompatActivity {
                     } else {
                         logincheck(UserName.getText().toString(), Password.getText().toString());
                     }
-                } else {
-                    Toast.makeText(getApplicationContext(), "No internet connection", Toast.LENGTH_LONG).show();
                 }
+
+
 
             }
         });

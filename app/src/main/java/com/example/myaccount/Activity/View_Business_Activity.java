@@ -3,6 +3,7 @@ package com.example.myaccount.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +18,10 @@ import android.widget.TextView;
 
 import com.example.myaccount.Adapter.Business_list_adapter;
 import com.example.myaccount.Model.Addbusiness_model;
+import com.example.myaccount.Network.NetworkState;
 import com.example.myaccount.R;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,6 +46,7 @@ public class View_Business_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view__business_);
         uid=getIntent().getExtras().getString("uid");
+        NetworkState state=new NetworkState();
         activity="view_business_activity";
         recyclerView=findViewById(R.id.buislist);
         progressBar=findViewById(R.id.progressbusiloist);
@@ -57,7 +62,26 @@ public class View_Business_Activity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        viewbusiness.execute(uid);
+        if (state.getConnectivityStatusString(getApplicationContext()).equals("Not connected to Internet"))
+        {
+            Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_INDEFINITE)
+                    .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
+                    .setAction("Retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                            overridePendingTransition( 0, 0);
+                            startActivity(getIntent());
+                            overridePendingTransition( 0, 0);
+                        }
+                    })
+                    .show();
+        }
+        else
+        {
+            viewbusiness.execute(uid);
+            progressBar.setVisibility(View.GONE);
+        }
     }
     private  class viewbusiness extends AsyncTask<String,String,String>
     {
@@ -78,7 +102,6 @@ public class View_Business_Activity extends AppCompatActivity {
                     RecyclerView.LayoutManager manager=new GridLayoutManager(View_Business_Activity.this,1);
                     recyclerView.setLayoutManager(manager);
                     recyclerView.setAdapter(business_list_adapter);
-                    progressBar.setVisibility(View.GONE);
 
                 }
 

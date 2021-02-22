@@ -1,6 +1,7 @@
 package com.example.myaccount.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,8 +15,11 @@ import android.widget.TextView;
 import com.example.myaccount.Local_Database.Dbhandle;
 import com.example.myaccount.Model.Payment_model;
 import com.example.myaccount.Adapter.Months_list_Adapter;
+import com.example.myaccount.Network.NetworkState;
 import com.example.myaccount.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -47,11 +51,30 @@ public class Business_Analysis_Activity extends AppCompatActivity {
                 Log.e("m","="+month);
                 month_filltered=arrdup(month);
                 Log.e("m","="+month_filltered);
-
+        NetworkState state=new NetworkState();
+        if (state.getConnectivityStatusString(getApplicationContext()).equals("Not connected to Internet"))
+        {
+            Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_INDEFINITE)
+                    .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
+                    .setAction("Retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                            overridePendingTransition( 0, 0);
+                            startActivity(getIntent());
+                            overridePendingTransition( 0, 0);
+                        }
+                    })
+                    .show();
+        }
+        else {
             Months_list_Adapter months_list_adapter=new Months_list_Adapter(Business_Analysis_Activity.this,month_filltered,uid,activity);
             RecyclerView.LayoutManager manager=new GridLayoutManager(Business_Analysis_Activity.this,1);
             recyclerView.setLayoutManager(manager);
             recyclerView.setAdapter(months_list_adapter);
+        }
+
+
             bottomNavigationView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

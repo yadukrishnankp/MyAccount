@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
@@ -20,6 +21,7 @@ import com.example.myaccount.Fragment.Choose_Bottomsheet_Fragment;
 import com.example.myaccount.Local_Database.Dbhandle;
 import com.example.myaccount.Model.Amount_model;
 import com.example.myaccount.Model.Payment_model;
+import com.example.myaccount.Network.NetworkState;
 import com.example.myaccount.R;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -27,6 +29,8 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -84,6 +88,7 @@ public class Business_Activity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+        NetworkState state=new NetworkState();
         pieChart=findViewById(R.id.piechartbusiness);
         currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         month=currentDate.substring(3);
@@ -104,6 +109,7 @@ public class Business_Activity extends AppCompatActivity {
         {
             e.printStackTrace();
         }
+
 
       new Handler(getMainLooper()).postDelayed(new Runnable() {
           @Override
@@ -134,44 +140,64 @@ public class Business_Activity extends AppCompatActivity {
           }
       },2000);
 
-      new Handler(getMainLooper()).postDelayed(new Runnable() {
-          @Override
-          public void run() {
-              pieChart.setHoleRadius(40f);
-              pieChart.setTransparentCircleAlpha(0);
-              pieChart.setCenterText("RISBOOK");
 
-              pieChart.setCenterTextSize(10);
-              pieChart.getDescription().setText("monthly income and expense");
-              pieChart.setDrawEntryLabels(false);
-
-
-              AddDataset(pieChart);
-          }
-      },2000);
 
 
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        Business_page_adapter business_page_adapter=new Business_page_adapter(this,getSupportFragmentManager(),tabLayout.getTabCount(),uid,bid,smonth);
-        viewPager.setAdapter(business_page_adapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
+        if (state.getConnectivityStatusString(getApplicationContext()).equals("Not connected to Internet"))
+        {
+            Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_INDEFINITE)
+                    .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
+                    .setAction("Retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                            overridePendingTransition( 0, 0);
+                            startActivity(getIntent());
+                            overridePendingTransition( 0, 0);
+                        }
+                    })
+                    .show();
+        }
+        else
+        {
+            Business_page_adapter business_page_adapter=new Business_page_adapter(this,getSupportFragmentManager(),tabLayout.getTabCount(),uid,bid,smonth);
+            viewPager.setAdapter(business_page_adapter);
+            viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    viewPager.setCurrentItem(tab.getPosition());
+                }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
 
-            }
+                }
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
 
-            }
-        });
+                }
+            });
+            new Handler(getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    pieChart.setHoleRadius(40f);
+                    pieChart.setTransparentCircleAlpha(0);
+                    pieChart.setCenterText("RISBOOK");
+
+                    pieChart.setCenterTextSize(10);
+                    pieChart.getDescription().setText("monthly income and expense");
+                    pieChart.setDrawEntryLabels(false);
+
+
+                    AddDataset(pieChart);
+                }
+            },2000);
+        }
+
         bottomNavigationView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

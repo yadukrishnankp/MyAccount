@@ -3,6 +3,7 @@ package com.example.myaccount.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +19,10 @@ import com.example.myaccount.Adapter.Business_list_Adapter_2;
 import com.example.myaccount.Local_Database.Dbhandle;
 import com.example.myaccount.Model.Addbusiness_model;
 import com.example.myaccount.Model.Amount_model;
+import com.example.myaccount.Network.NetworkState;
 import com.example.myaccount.R;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,7 +50,25 @@ public class Business_list_Activity extends AppCompatActivity {
         back=toolbar.findViewById(R.id.backimg);
         title=toolbar.findViewById(R.id.titletext);
         title.setText("All Business");
-        getmnothlist(uid);
+        NetworkState state=new NetworkState();
+        if (state.getConnectivityStatusString(getApplicationContext()).equals("Not connected to Internet"))
+        {
+            Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_INDEFINITE)
+                    .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
+                    .setAction("Retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                            overridePendingTransition( 0, 0);
+                            startActivity(getIntent());
+                            overridePendingTransition( 0, 0);
+                        }
+                    })
+                    .show();
+        }
+        else {
+            getmnothlist(uid);
+        }
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

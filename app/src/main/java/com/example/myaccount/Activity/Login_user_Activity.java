@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,8 @@ public class Login_user_Activity extends AppCompatActivity {
     String uid;
     EditText username,password;
     Button login;
+    SharedPreferences pref;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,16 @@ public class Login_user_Activity extends AppCompatActivity {
         username=findViewById(R.id.usernamelu);
         password=findViewById(R.id.passwordlu);
         login=findViewById(R.id.loginbtnlu);
+        pref = getSharedPreferences("user", MODE_PRIVATE);
+        if (pref.contains("u")&&pref.contains("b"))
+        {
+            String uid=pref.getString("u",null);
+            String bid=pref.getString("b",null);
+            Intent i=new Intent(getApplicationContext(),Business_home_Activity.class);
+            i.putExtra("uid",uid);
+            i.putExtra("bid",bid);
+            startActivity(i);
+        }
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,6 +132,7 @@ public class Login_user_Activity extends AppCompatActivity {
     }
     public void logincheck(String uid,String username,String password)
     {
+        SharedPreferences.Editor editor=pref.edit();
         DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
         reference.child("New_business").orderByChild("uid").equalTo(uid).addChildEventListener(new ChildEventListener() {
             @Override
@@ -134,6 +148,9 @@ public class Login_user_Activity extends AppCompatActivity {
                             Intent i=new Intent(getApplicationContext(),Business_home_Activity.class);
                             i.putExtra("uid",addbusiness_model.getUid());
                             i.putExtra("bid",addbusiness_model.getBusinessid());
+                            editor.putString("u",addbusiness_model.getUid());
+                            editor.putString("b",addbusiness_model.getBusinessid());
+                            editor.commit();
                             startActivity(i);
                         }
                         else

@@ -1,21 +1,27 @@
 package com.example.myaccount.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.myaccount.Local_Database.Dbhandle;
 import com.example.myaccount.R;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 public class Admin_home_Activity extends AppCompatActivity {
 
     Button addnewuser,viewuser;
     Button log;
     SharedPreferences pref;
-
+    private boolean doubleBackToExitPressedOnce = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,5 +59,34 @@ public class Admin_home_Activity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            //super.onBackPressed();
+            Intent a = new Intent(Intent.ACTION_MAIN);
+            a.addCategory(Intent.CATEGORY_HOME);
+            a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(a);
+            Dbhandle dbhandle=new Dbhandle(getApplicationContext());
+            dbhandle.removeall();
+            Log.e("a","=");
+            //return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        Snackbar.make(findViewById(android.R.id.content),"Please click BACK again to exit", BaseTransientBottomBar.LENGTH_SHORT)
+                .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
+                .show();
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+                Log.e("b","=");
+            }
+
+        }, 2000);
     }
 }

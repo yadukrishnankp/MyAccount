@@ -10,13 +10,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.example.myaccount.Activity.Login_user_Activity;
 import com.example.myaccount.Model.Signup_model;
+import com.example.myaccount.Network.NetworkState;
 import com.example.myaccount.R;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -72,46 +77,56 @@ public class Popup_Message
 
     public void logincheck(String name)
     {
-        DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
-        reference.child("NewRegistration").orderByChild("companyname").equalTo(name).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Signup_model signup_model=new Signup_model();
-                signup_model=snapshot.getValue(Signup_model.class);
-                arrayList.add(signup_model);
-                if (name.equals(signup_model.getCompanyname()))
-                {
-                    String uid=signup_model.getId();
-                    Intent intent=new Intent(context, Login_user_Activity.class);
-                    intent.putExtra("uid",uid);
-                    context.startActivity(intent);
+        NetworkState state=new NetworkState();
+        if (state.getConnectivityStatusString(context).equals("Not connected to Internet"))
+        {
+            Toast.makeText(context, "No Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            DatabaseReference reference= FirebaseDatabase.getInstance().getReference();
+            reference.child("NewRegistration").orderByChild("companyname").equalTo(name).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    Signup_model signup_model=new Signup_model();
+                    signup_model=snapshot.getValue(Signup_model.class);
+                    arrayList.add(signup_model);
+                    if (name.equals(signup_model.getCompanyname()))
+                    {
+                        String uid=signup_model.getId();
+                        Intent intent=new Intent(context, Login_user_Activity.class);
+                        intent.putExtra("uid",uid);
+                        context.startActivity(intent);
+                    }
+                    else
+                    {
+                        nametxt.setError("invalid business name");
+                    }
+
                 }
-                else
-                {
-                    nametxt.setError("invalid business name");
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
                 }
 
-            }
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                }
 
-            }
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                }
 
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                }
+            });
+        }
 
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 }

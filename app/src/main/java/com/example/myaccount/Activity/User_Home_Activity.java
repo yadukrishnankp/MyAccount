@@ -50,7 +50,6 @@ public class User_Home_Activity extends AppCompatActivity {
     TextView title,full,name,companyname;
     private boolean doubleBackToExitPressedOnce = false;
     View toolbar;
-    SQLiteDatabase db;
     String uid,month,currentDate;
     ArrayList<Amount_model>expense=new ArrayList<>();
     ArrayList<Amount_model>earning=new ArrayList<>();
@@ -88,13 +87,15 @@ public class User_Home_Activity extends AppCompatActivity {
         NetworkState state=new NetworkState();
         if (state.getConnectivityStatusString(getApplicationContext()).equals("Not connected to Internet"))
         {
-            Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_LONG)
+            Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_INDEFINITE)
                     .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
                     .setAction("Retry", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             finish();
+                            overridePendingTransition( 0, 0);
                             startActivity(getIntent());
+                            overridePendingTransition( 0, 0);
                         }
                     })
                     .show();
@@ -205,14 +206,6 @@ public class User_Home_Activity extends AppCompatActivity {
                 {
                     Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_LONG)
                             .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
-                            .setAction("Retry", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent i=new Intent(getApplicationContext(), Addbusiness_Activity.class);
-                                    i.putExtra("uid",uid);
-                                    startActivity(i);
-                                }
-                            })
                             .show();
                 }
                 else {
@@ -231,14 +224,6 @@ public class User_Home_Activity extends AppCompatActivity {
                 {
                     Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_LONG)
                             .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
-                            .setAction("Retry", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent i=new Intent(getApplicationContext(), View_Business_Activity.class);
-                                    i.putExtra("uid",uid);
-                                    startActivity(i);
-                                }
-                            })
                             .show();
                 }
                 else {
@@ -256,18 +241,6 @@ public class User_Home_Activity extends AppCompatActivity {
                 {
                     Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_LONG)
                             .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
-                            .setAction("Retry", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    ArrayList<String>month=new ArrayList<>();
-                                    month.addAll(exp_month_string);
-                                    month.addAll(ern_month_string);
-                                    Intent i=new Intent(getApplicationContext(), Business_Analysis_Activity.class);
-                                    i.putExtra("uid",uid);
-                                    i.putExtra("month",month);
-                                    startActivity(i);
-                                }
-                            })
                             .show();
                 }
                 else {
@@ -289,14 +262,6 @@ public class User_Home_Activity extends AppCompatActivity {
                 {
                     Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_LONG)
                             .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
-                            .setAction("Retry", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent i=new Intent(getApplicationContext(), Others_Activity.class);
-                                    i.putExtra("uid",uid);
-                                    startActivity(i);
-                                }
-                            })
                             .show();
                 }
                 else
@@ -316,14 +281,6 @@ public class User_Home_Activity extends AppCompatActivity {
                 {
                     Snackbar.make(findViewById(android.R.id.content),"No Internet Connection", BaseTransientBottomBar.LENGTH_LONG)
                             .setBackgroundTint(ContextCompat.getColor(getApplicationContext(), R.color.green))
-                            .setAction("Retry", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent i=new Intent(getApplicationContext(), Others_Activity.class);
-                                    i.putExtra("uid",uid);
-                                    startActivity(i);
-                                }
-                            })
                             .show();
                 }
                 else

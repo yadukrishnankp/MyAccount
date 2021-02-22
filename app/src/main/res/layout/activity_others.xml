@@ -11,10 +11,12 @@
         android:id="@+id/otherstoolbar">
 
     </include>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <Button
             android:id="@+id/logout"
             android:layout_width="match_parent"
@@ -22,7 +24,9 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:text="logout"
-            android:textSize="20dp"
+            android:gravity="left"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
