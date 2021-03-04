@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.myaccount">
+    package="com.riss.book">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -12,48 +12,48 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyAccount">
-        <activity android:name=".Image_view_Activity" android:exported="true"></activity>
-        <activity android:name=".Activity.Business_home_Activity" />
+        <activity android:name="com.riss.book.Image_view_Activity" android:exported="true"></activity>
+        <activity android:name="com.riss.book.Activity.Business_home_Activity" />
         <activity
-            android:name=".Activity.Login_choose_Activity"
+            android:name="com.riss.book.Activity.Login_choose_Activity"
             android:exported="true" />
-        <activity android:name=".Activity.Login_user_Activity" />
-        <activity android:name=".Activity.Monthlist_Activity" />
-        <activity android:name=".Activity.Business_list_Activity" />
-        <activity android:name=".Activity.Business_Analysis_Activity" />
-        <activity android:name=".Activity.Others_Activity" />
-        <activity android:name=".Activity.Payment_Activity" />
-        <activity android:name=".Activity.Full_Payement_Details_Activity" />
+        <activity android:name="com.riss.book.Activity.Login_user_Activity" />
+        <activity android:name="com.riss.book.Activity.Monthlist_Activity" />
+        <activity android:name="com.riss.book.Activity.Business_list_Activity" />
+        <activity android:name="com.riss.book.Activity.Business_Analysis_Activity" />
+        <activity android:name="com.riss.book.Activity.Others_Activity" />
+        <activity android:name="com.riss.book.Activity.Payment_Activity" />
+        <activity android:name="com.riss.book.Activity.Full_Payement_Details_Activity" />
         <activity
-            android:name=".Activity.Edit_Business_Activity"
-            android:exported="true" />
-        <activity
-            android:name=".Activity.Payment_Details_Activity"
+            android:name="com.riss.book.Activity.Edit_Business_Activity"
             android:exported="true" />
         <activity
-            android:name=".Activity.Business_Activity"
+            android:name="com.riss.book.Activity.Payment_Details_Activity"
             android:exported="true" />
         <activity
-            android:name=".Activity.View_Business_Activity"
-            android:exported="true" />
-        <activity android:name=".Activity.Forgetpassword_Activity" />
-        <activity
-            android:name=".Activity.Addbusiness_Activity"
+            android:name="com.riss.book.Activity.Business_Activity"
             android:exported="true" />
         <activity
-            android:name=".Activity.User_Home_Activity"
+            android:name="com.riss.book.Activity.View_Business_Activity"
+            android:exported="true" />
+        <activity android:name="com.riss.book.Activity.Forgetpassword_Activity" />
+        <activity
+            android:name="com.riss.book.Activity.Addbusiness_Activity"
             android:exported="true" />
         <activity
-            android:name=".Activity.All_userview_Activity"
-            android:exported="true" />
-        <activity android:name=".Activity.Admin_home_Activity" />
-        <activity
-            android:name=".Activity.Registration_Activity"
+            android:name="com.riss.book.Activity.User_Home_Activity"
             android:exported="true" />
         <activity
-            android:name=".Activity.Login_Activity"
+            android:name="com.riss.book.Activity.All_userview_Activity"
             android:exported="true" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.riss.book.Activity.Admin_home_Activity" />
+        <activity
+            android:name="com.riss.book.Activity.Registration_Activity"
+            android:exported="true" />
+        <activity
+            android:name="com.riss.book.Activity.Login_Activity"
+            android:exported="true" />
+        <activity android:name="com.riss.book.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
