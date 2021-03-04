@@ -118,7 +118,7 @@
                 app:srcCompat="@drawable/call_icon" />
 
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/delete"
                 android:layout_width="32dp"
                 android:layout_height="38dp"
                 android:layout_alignParentEnd="true"

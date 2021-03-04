@@ -67,6 +67,7 @@ public class Forgetpassword_Activity extends AppCompatActivity {
                         {
                             Signup_model lm = dataSnapshot.getValue(Signup_model.class);
                             String id=lm.getId();
+                            Log.e("del","="+id);
 
                             String mRecipientMail = email.getText().toString();
                             otp1=Integer.toString(OTP());
@@ -203,7 +204,7 @@ public class Forgetpassword_Activity extends AppCompatActivity {
     {
         Log.e("dzs","="+username+psw);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref.child("NewRegistration").orderByChild("username").equalTo(username).addChildEventListener(new ChildEventListener() {
+        ref.child("NewRegistration").orderByChild("email").equalTo(username).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
             {
@@ -211,7 +212,7 @@ public class Forgetpassword_Activity extends AppCompatActivity {
                 Log.e("val1", "=" + dataSnapshot);
                 Signup_model lm = dataSnapshot.getValue(Signup_model.class);
                 Log.e("val12", "=" + lm.getEmail());
-                String id=lm.getPid();
+                String id=lm.getId();
                 DatabaseReference updatedata= FirebaseDatabase.getInstance().getReference("NewRegistration").child(id);
                 updatedata.child("password").setValue(psw);
 

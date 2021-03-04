@@ -55,8 +55,8 @@ public class Forgetpasswordmail extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... params) {
         //Creating properties
         Properties props = new Properties();
-        final String username = "risbuzzsolutions@gmail.com";
-        final String password = "nididcflzrdwreke";
+        final String username = "risbuzztechnologyhubcalicut@gmail.com";
+        final String password = "ris123@clt";
         //Configuring properties for gmail
         //If you are not using gmail you may need to change the values
         props.put("mail.smtp.host", "smtp.gmail.com");

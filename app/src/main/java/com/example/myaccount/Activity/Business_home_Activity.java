@@ -1,5 +1,7 @@
 package com.example.myaccount.Activity;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
@@ -11,29 +13,39 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.myaccount.Adapter.Business_page_adapter;
 import com.example.myaccount.Fragment.Choose_Bottomsheet_Fragment;
 import com.example.myaccount.Local_Database.Dbhandle;
+import com.example.myaccount.Model.Signup_model;
 import com.example.myaccount.Network.NetworkState;
 import com.example.myaccount.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 public class Business_home_Activity extends AppCompatActivity {
-    String uid,bid,smonth,currentDate,type,activity;
+    String uid,bid,smonth,currentDate,type,activity,companyname;
     TabLayout tabLayout;
     ViewPager viewPager;
     BottomNavigationView bottomNavigationView;
     View toolbar;
     ImageView logout;
     SharedPreferences pref;
+    TextView title;
     private boolean doubleBackToExitPressedOnce = false;
 
 
@@ -46,10 +58,12 @@ public class Business_home_Activity extends AppCompatActivity {
         tabLayout=findViewById(R.id.tabla);
         toolbar=findViewById(R.id.uder_toolbar);
         logout=toolbar.findViewById(R.id.logoutimg);
+        title=toolbar.findViewById(R.id.titlebusi);
         pref = getSharedPreferences("user", MODE_PRIVATE);
         bottomNavigationView=findViewById(R.id.bottom_user);
         uid=getIntent().getExtras().getString("uid");
         bid=getIntent().getExtras().getString("bid");
+        getbusiname();
         type="user";
         currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         smonth=currentDate.substring(3);
@@ -139,5 +153,39 @@ public class Business_home_Activity extends AppCompatActivity {
             }
 
         }, 2000);
+    }
+    public void getbusiname()
+    {
+        DatabaseReference   reference= FirebaseDatabase.getInstance().getReference();
+        reference.child("NewRegistration").orderByChild("id").equalTo(uid).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Signup_model signup_model=new Signup_model();
+                signup_model=snapshot.getValue(Signup_model.class);
+                title.setText(signup_model.getCompanyname());
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 }
